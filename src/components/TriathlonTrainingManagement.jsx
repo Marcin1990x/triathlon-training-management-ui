@@ -1,7 +1,19 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginComponent from "./LoginComponent";
+import AthleteComponent from "./AthleteComponent";
+import AuthProvider from "./security/AuthContext";
+
 export default function TriathlonTrainingManagement() {
     return(
         <div className="TriathlonTrainingManager">
-            <h1>Welcome in my new app !</h1>
+            <AuthProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path = '/' element = { <LoginComponent /> } />
+                        <Route path = '/athlete' element = { <AthleteComponent /> } />
+                    </Routes>
+                </BrowserRouter>
+            </AuthProvider>    
         </div>
     )
 }
