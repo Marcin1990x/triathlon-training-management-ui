@@ -1,9 +1,11 @@
 import { useState } from "react"
 import { useAuth } from "./security/AuthContext"
+import { useNavigate } from "react-router-dom"
 
 export default function LoginComponent() {
 
     const authContext = useAuth()
+    const navigate = useNavigate()
 
     const [username, setUsername] = useState('login')
     const [password, setPassword] = useState('password')
@@ -15,8 +17,9 @@ export default function LoginComponent() {
         setPassword(event.target.value)
     }
     async function handleSubmit() {
-        console.log(username + ' ' + password)
-        await authContext.login(username, password)
+        if(await authContext.login(username, password)) {
+            navigate('/athlete') 
+        }
     }
 
     return(
