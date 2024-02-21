@@ -30,6 +30,11 @@ export default function AthleteComponent() {
             })
             .catch(error => console.log(error))
     }
+    function updateTrainingRealization(id) {
+        return (
+            <button className="btn btn-outline-primary">add feelings</button>
+        )
+    }
 
     return(
         <div className="AthleteComponent">
@@ -80,6 +85,7 @@ export default function AthleteComponent() {
                                     <td>{realization.timeInSeconds}</td>
                                     <td>{realization.feelings}</td>
                                     <td>{realization.rpeLevel}</td>
+                                    <td>{updateTrainingRealization(realization.id)}</td>
                                 </tr>
                             )
                         )
