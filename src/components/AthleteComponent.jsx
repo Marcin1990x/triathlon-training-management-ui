@@ -3,13 +3,17 @@ import { getTrainingPlansByAthleteId } from "./api/TrainingPlanApiService"
 import { getTrainingRealizationsByAthleteId, synchronizeActivitiesForAthleteApi } from "./api/TrainingRealizationApiService"
 import { trainingPlanTableHeaders, trainingRealizationTableHeaders } from "./labels/TableLabels"
 import { refreshAccessTokenForUserApi } from "./api/UserApiService"
+import { useAuth } from "./security/AuthContext"
 
 export default function AthleteComponent() {
+
+    const authContext = useAuth()
 
     const [trainingPlans, setTrainingPlans] = useState([])
     const [trainingRealizations, setTrainingRealizations] = useState([])
 
-    const stravaAuthUrl = 'https://www.strava.com/oauth/authorize?client_id=121367&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read_all'
+
+    //const stravaAuthUrl = 'https://www.strava.com/oauth/authorize?client_id=121367&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read_all'
 
     const [render, setRender] = useState(0)
 
@@ -20,7 +24,7 @@ export default function AthleteComponent() {
          
 
     function getTrainingPlans() {
-        getTrainingPlansByAthleteId(1)  // hardcoded temp
+        getTrainingPlansByAthleteId(authContext.athleteId)  // hardcoded temp
             .then(response => {
                 console.log(response)
                 setTrainingPlans(response.data)
@@ -28,7 +32,7 @@ export default function AthleteComponent() {
             .catch(error => console.log(error))
     }
     function getTrainingRealizations() {
-        getTrainingRealizationsByAthleteId(1) // hardcoded temp
+        getTrainingRealizationsByAthleteId(authContext.athleteId) // hardcoded temp
             .then(response => {
                 console.log(response)
                 setTrainingRealizations(response.data)
@@ -49,7 +53,7 @@ export default function AthleteComponent() {
         
     }
     function refreshAccessToken() {
-        refreshAccessTokenForUserApi(2) // hardcoded temp
+        refreshAccessTokenForUserApi(authContext.userId) // hardcoded temp
             .then(response => {
                 synchronizeActivitiesForAthlete()
                 console.log(response)
@@ -57,7 +61,7 @@ export default function AthleteComponent() {
             .catch(error => console.log(error))
     }
     function synchronizeActivitiesForAthlete() {
-        synchronizeActivitiesForAthleteApi(1) // hardcoded temp
+        synchronizeActivitiesForAthleteApi(authContext.athleteId) // hardcoded temp
             .then(response => {
                 console.log(response)
                 setRender(render + 1)

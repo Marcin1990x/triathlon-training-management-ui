@@ -10,6 +10,8 @@ export default function AuthProvider({children}) {
 
     const [isAuthenticated, setAuthenticated] = useState(false)
     const [token, setToken] = useState(null)
+    const [userId, setUserId] = useState(null)
+    const [athleteId, setAthleteId] = useState(null)
 
     async function login (username, password) {
 
@@ -22,6 +24,8 @@ export default function AuthProvider({children}) {
                 
                 setToken(token)
                 setAuthenticated(true)
+                setUserId(response.data.userId)
+                setAthleteId(response.data.athleteId)
 
                 apiClient.interceptors.request.use (
                         (config) => {
@@ -44,10 +48,12 @@ export default function AuthProvider({children}) {
     function logout() {
         setAuthenticated(false)
         setToken(null)
+        setUserId(null)
+        setAthleteId(null)
     }
 
     return (
-        <AuthContext.Provider value = {{login, token, isAuthenticated}}>
+        <AuthContext.Provider value = {{login, token, isAuthenticated, userId, athleteId}}>
             {children}
         </AuthContext.Provider>
     )
