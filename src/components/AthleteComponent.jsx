@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react"
 import { getTrainingPlansByAthleteId } from "./api/TrainingPlanApiService"
-import { getTrainingRealizationsByAthleteId } from "./api/TrainingRealizationApiService"
+import { getTrainingRealizationsByAthleteId, synchronizeActivitiesForAthleteApi } from "./api/TrainingRealizationApiService"
 import { trainingPlanTableHeaders, trainingRealizationTableHeaders } from "./labels/TableLabels"
+import { refreshAccessTokenForUserApi } from "./api/UserApiService"
 
 export default function AthleteComponent() {
 
     const [trainingPlans, setTrainingPlans] = useState([])
     const [trainingRealizations, setTrainingRealizations] = useState([])
 
+    const stravaAuthUrl = 'https://www.strava.com/oauth/authorize?client_id=121367&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read_all'
+
+    const [render, setRender] = useState(0)
+
     useEffect ( () => {
          getTrainingPlans()
          getTrainingRealizations()
-        }, [] )
+        }, [render] )
          
 
     function getTrainingPlans() {
@@ -35,10 +40,35 @@ export default function AthleteComponent() {
             <button className="btn btn-outline-primary">add feelings</button>
         )
     }
+    function handleSynchronizeButton() {
+        if(true){ // add condition if expired
+            refreshAccessToken()
+        } else {
+            synchronizeActivitiesForAthlete()
+        }
+        
+    }
+    function refreshAccessToken() {
+        refreshAccessTokenForUserApi(2) // hardcoded temp
+            .then(response => {
+                synchronizeActivitiesForAthlete()
+                console.log(response)
+            })
+            .catch(error => console.log(error))
+    }
+    function synchronizeActivitiesForAthlete() {
+        synchronizeActivitiesForAthleteApi(1) // hardcoded temp
+            .then(response => {
+                console.log(response)
+                setRender(render + 1)
+            })
+            .catch(error => console.log(error))
+    }
 
     return(
         <div className="AthleteComponent">
-            <h2>Athlete component</h2>
+
+            <h2>Athlete</h2>
 
             <br></br>
 
@@ -66,6 +96,9 @@ export default function AthleteComponent() {
             </table>
             <br></br>
             <h4>Training Plan realization:</h4>
+
+            <button className = "btn btn-outline-success m-2" onClick = {() => handleSynchronizeButton()}>Synchronize with Strava</button>
+
             <table className="table table-striped">
                 <thead>
                     <tr>
