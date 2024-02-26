@@ -12,6 +12,8 @@ export default function AuthProvider({children}) {
     const [token, setToken] = useState(null)
     const [userId, setUserId] = useState(null)
     const [athleteId, setAthleteId] = useState(null)
+    const [hasRefreshToken, setHasRefreshToken] = useState(false)
+    const [stravaAccessExpiresAt, setStravaAccessExpiresAt] = useState(null)
 
     async function login (username, password) {
 
@@ -26,6 +28,8 @@ export default function AuthProvider({children}) {
                 setAuthenticated(true)
                 setUserId(response.data.userId)
                 setAthleteId(response.data.athleteId)
+                setHasRefreshToken(response.data.hasRefreshToken)
+                setStravaAccessExpiresAt(response.data.stravaAccessExpiresAt)
 
                 apiClient.interceptors.request.use (
                         (config) => {
@@ -50,10 +54,12 @@ export default function AuthProvider({children}) {
         setToken(null)
         setUserId(null)
         setAthleteId(null)
+        setHasRefreshToken(false)
+        setStravaAccessExpiresAt(null)
     }
 
     return (
-        <AuthContext.Provider value = {{login, token, isAuthenticated, userId, athleteId}}>
+        <AuthContext.Provider value = {{login, token, isAuthenticated, userId, athleteId, hasRefreshToken, stravaAccessExpiresAt}}>
             {children}
         </AuthContext.Provider>
     )

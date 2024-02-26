@@ -4,6 +4,7 @@ import { getTrainingRealizationsByAthleteId, synchronizeActivitiesForAthleteApi 
 import { trainingPlanTableHeaders, trainingRealizationTableHeaders } from "./labels/TableLabels"
 import { refreshAccessTokenForUserApi } from "./api/UserApiService"
 import { useAuth } from "./security/AuthContext"
+import moment from 'moment'
 
 export default function AthleteComponent() {
 
@@ -24,7 +25,7 @@ export default function AthleteComponent() {
          
 
     function getTrainingPlans() {
-        getTrainingPlansByAthleteId(authContext.athleteId)  // hardcoded temp
+        getTrainingPlansByAthleteId(authContext.athleteId)
             .then(response => {
                 console.log(response)
                 setTrainingPlans(response.data)
@@ -32,7 +33,7 @@ export default function AthleteComponent() {
             .catch(error => console.log(error))
     }
     function getTrainingRealizations() {
-        getTrainingRealizationsByAthleteId(authContext.athleteId) // hardcoded temp
+        getTrainingRealizationsByAthleteId(authContext.athleteId)
             .then(response => {
                 console.log(response)
                 setTrainingRealizations(response.data)
@@ -45,15 +46,25 @@ export default function AthleteComponent() {
         )
     }
     function handleSynchronizeButton() {
-        if(true){ // add condition if expired
+        if(isAccessTokenNotExpired()){
+            console.log('refresh')
             refreshAccessToken()
         } else {
+            console.log('bez refresh')
             synchronizeActivitiesForAthlete()
         }
-        
     }
-    function refreshAccessToken() {
-        refreshAccessTokenForUserApi(authContext.userId) // hardcoded temp
+    function isAccessTokenNotExpired() {
+        var currentTime = moment()
+        var givenTime = moment(authContext.stravaAccessExpiresAt * 1000)
+        if(givenTime.isBefore(currentTime)) {
+            return true
+        }
+        return false
+    }
+
+    function refreshAccessToken() { // it should be in auth context !
+        refreshAccessTokenForUserApi(authContext.userId)
             .then(response => {
                 synchronizeActivitiesForAthlete()
                 console.log(response)
@@ -61,7 +72,7 @@ export default function AthleteComponent() {
             .catch(error => console.log(error))
     }
     function synchronizeActivitiesForAthlete() {
-        synchronizeActivitiesForAthleteApi(authContext.athleteId) // hardcoded temp
+        synchronizeActivitiesForAthleteApi(authContext.athleteId)
             .then(response => {
                 console.log(response)
                 setRender(render + 1)
