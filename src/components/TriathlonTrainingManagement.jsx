@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginComponent from "./LoginComponent";
-import AthleteComponent from "./AthleteComponent";
+import AthleteComponent from "./athleteComponent/AthleteComponent";
 import AuthProvider from "./security/AuthContext";
 
 export default function TriathlonTrainingManagement() {

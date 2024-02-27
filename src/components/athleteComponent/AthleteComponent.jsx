@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { getTrainingPlansByAthleteId } from "./api/TrainingPlanApiService"
-import { getTrainingRealizationsByAthleteId, synchronizeActivitiesForAthleteApi } from "./api/TrainingRealizationApiService"
-import { trainingPlanTableHeaders, trainingRealizationTableHeaders } from "./labels/TableLabels"
-import { refreshAccessTokenForUserApi } from "./api/UserApiService"
-import { useAuth } from "./security/AuthContext"
+import { getTrainingPlansByAthleteId } from "../api/TrainingPlanApiService"
+import { getTrainingRealizationsByAthleteId, synchronizeActivitiesForAthleteApi } from "../api/TrainingRealizationApiService"
+import { trainingPlanTableHeaders, trainingRealizationTableHeaders } from "../labels/TableLabels"
+import { refreshAccessTokenForUserApi } from "../api/UserApiService"
+import { useAuth } from "../security/AuthContext"
 import moment from 'moment'
+import WeekdayList from "./WeekdayList"
 
 export default function AthleteComponent() {
 
@@ -12,9 +13,6 @@ export default function AthleteComponent() {
 
     const [trainingPlans, setTrainingPlans] = useState([])
     const [trainingRealizations, setTrainingRealizations] = useState([])
-
-
-    //const stravaAuthUrl = 'https://www.strava.com/oauth/authorize?client_id=121367&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read_all'
 
     const [render, setRender] = useState(0)
 
@@ -84,6 +82,8 @@ export default function AthleteComponent() {
         <div className="AthleteComponent">
 
             <h2>Athlete</h2>
+
+            {WeekdayList(trainingPlans, trainingRealizations)}
 
             <br></br>
 
