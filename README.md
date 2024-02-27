@@ -1,70 +1,50 @@
-# Getting Started with Create React App
+# Triathlon training management application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<hr>
 
-## Available Scripts
+## Application description
 
-In the project directory, you can run:
+Triathlon training management application is made for athletes and its coaches to create, schedule, realize and track training plans
+of four types (running, cycling, swimming, weight training).
 
-### `npm start`
+Backend is developing using Java with Spring Boot.
+Frontend is developing using ReactJS.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Temporarily H2 is used for persistence.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Application functionalities
 
-### `npm test`
+- user register and login 
+- application authentication and authorization using JWT token
+- activities synchronization with Strava account
+- coach can add new training plan (using training stages), get all his plans, delete plan and schedule plan to athlete
+- athlete can get all his scheduled training plans
+- athlete can get all his training realizations, delete realization
+- athlete can retrieve all his training realizations from Strava after correct authentication
+- athlete can update training realization with his feelings and description
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Development comments
 
-### `npm run build`
+Application development is in progress.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To do:
+ - use another relation database MySQL / PostgreSQL
+ - dockerize application
+ - finish UI
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Backend repository
+https://github.com/Marcin1990x/triathlon-training-management-application
+## Frontend repository
+https://github.com/Marcin1990x/triathlon-training-management-ui
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Application is developed using following technologies:
+<p align="left">
+    <img src="https://ultimateqa.com/wp-content/uploads/2020/12/Java-logo-icon-1.png" alt="java" width="80" height="50"/> 
+    <img src="https://e4developer.com/wp-content/uploads/2018/01/spring-boot.png" alt="spring" width="90" height="50"/> 
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Apache_Maven_logo.svg/1280px-Apache_Maven_logo.svg.png" alt="maven" width="" height="36"/>
+    <img src="https://faq.o2switch.fr/_media/tuto-rapide/o2switch-deployer-react.js.png" alt="java" width="" height="50"/>
+    <img src="https://jaki-jezyk-programowania.pl/img/technologies/javascript.png" alt="java" width="" height="50"/>
+    <img src="https://junit.org/junit4/images/junit5-banner.png" alt="java" width="" height="50"/>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqvMgiH1EtBx1yqq1YurzOCwZKPzHDotG_2A&usqp=CAU.jpg" alt="strava" width="" height="50"/>
+    <img src="https://javadoc.io/static/org.mockito/mockito-core/1.9.5/org/mockito/logo.jpg" alt="java" width="" height="50"/>
+</p>
