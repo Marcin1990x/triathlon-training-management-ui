@@ -41,9 +41,10 @@ https://github.com/Marcin1990x/triathlon-training-management-ui
 <p align="left">
     <img src="https://ultimateqa.com/wp-content/uploads/2020/12/Java-logo-icon-1.png" alt="java" width="80" height="50"/> 
     <img src="https://e4developer.com/wp-content/uploads/2018/01/spring-boot.png" alt="spring" width="90" height="50"/> 
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Apache_Maven_logo.svg/1280px-Apache_Maven_logo.svg.png" alt="maven" width="" height="36"/>
     <img src="https://faq.o2switch.fr/_media/tuto-rapide/o2switch-deployer-react.js.png" alt="java" width="" height="50"/>
     <img src="https://jaki-jezyk-programowania.pl/img/technologies/javascript.png" alt="java" width="" height="50"/>
     <img src="https://junit.org/junit4/images/junit5-banner.png" alt="java" width="" height="50"/>
-	   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqvMgiH1EtBx1yqq1YurzOCwZKPzHDotG_2A&usqp=CAU.jpg" alt="strava" width="" height="50"/>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqvMgiH1EtBx1yqq1YurzOCwZKPzHDotG_2A&usqp=CAU.jpg" alt="strava" width="" height="50"/>
     <img src="https://javadoc.io/static/org.mockito/mockito-core/1.9.5/org/mockito/logo.jpg" alt="java" width="" height="50"/>
 </p>
