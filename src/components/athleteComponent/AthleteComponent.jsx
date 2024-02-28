@@ -78,12 +78,18 @@ export default function AthleteComponent() {
             .catch(error => console.log(error))
     }
 
+    const [activeTrainingId, setActiveTrainingId] = useState(null)
+    function onTrainingClick(id) {
+        setActiveTrainingId(id)
+        console.log(activeTrainingId)
+    }
+
     return(
         <div className="AthleteComponent">
 
             <h2>Athlete</h2>
 
-            {WeekdayList(trainingPlans, trainingRealizations)}
+            {WeekdayList(trainingPlans, trainingRealizations, onTrainingClick)}
 
             <br></br>
 

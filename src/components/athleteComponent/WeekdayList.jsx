@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './styles.css'
 
-export default function WeekdayList(trainingPlans, trainingRealizations) {
+export default function WeekdayList(trainingPlans, trainingRealizations, onTrainingClick) {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   function getWeekdays(date) {
@@ -29,19 +29,37 @@ export default function WeekdayList(trainingPlans, trainingRealizations) {
   }
 
   function handleTrainingPlanField(date){
-    
+
     const found = trainingPlans.find((plan => plan.plannedDate === formatDate(date)))
     if(found) {
-      return 'Plan: ' + found.name + ' / ' + found.description
+      return (
+        <div>
+          <button className = "btn btn-outline-dark" onClick = {() => handleOnClick(found.id)}>{planTextField(found)}</button>
+        </div>
+      )
     } return ''
+  }
+  function planTextField(plan) {
+    return 'Plan: ' + plan.trainingType + ' / ' + plan.name + ' / ' + plan.description
   }
 
   function handleTrainingRealizationField(date){
-    
+
     const found = trainingRealizations.find((realization => realization.realizationDate === formatDate(date)))
+    
     if(found) {
-      return 'Realization: ' + found.name + ' / ' + found.distanceInMeters
+      return (
+        <div>
+          <button className = "btn btn-outline-dark" onClick = {() => handleOnClick(found.id)}>{realizationTextField(found)}</button>
+        </div>
+      )
     } return ''
+  }
+  function realizationTextField(realization) {
+    return 'Realization: ' + realization.type + ' / ' + realization.name + ' / ' + realization.distanceInMeters
+  }
+  function handleOnClick(id) {
+    onTrainingClick(id)
   }
 
   function formatDate(date) {
