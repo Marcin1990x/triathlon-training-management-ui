@@ -1,7 +1,10 @@
-.box {
-    background-color: #f0f0f0;
+.training-box {
+    background-color: #daf6dd;
     border: 1px solid #000000;
     padding: 10px;
     margin-bottom: 10px;
-    height: 50px;
+    margin-top: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
+    height: auto;
   }

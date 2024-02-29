@@ -45,10 +45,8 @@ export default function AthleteComponent() {
     }
     function handleSynchronizeButton() {
         if(isAccessTokenNotExpired()){
-            console.log('refresh')
             refreshAccessToken()
         } else {
-            console.log('bez refresh')
             synchronizeActivitiesForAthlete()
         }
     }
@@ -78,11 +76,74 @@ export default function AthleteComponent() {
             .catch(error => console.log(error))
     }
 
-    const [activeTrainingId, setActiveTrainingId] = useState(null)
-    function onTrainingClick(id) {
-        setActiveTrainingId(id)
-        console.log(activeTrainingId)
+    const [activeTraining, setActiveTraining] = useState(null)
+    function onTrainingClick(training) {
+        setActiveTraining(training)
+        setFeelingsBoxVisible(false)
     }
+    function handleTrainingView() {
+        if(activeTraining && activeTraining.trainingPlanStatus) {
+            const trainingText = 'Plan for ' + activeTraining.plannedDate + ' - ' +  activeTraining.trainingType + ' ' 
+                + activeTraining.name + ': ' + activeTraining.description + ' '
+            return (
+                trainingText
+            )
+        }
+        if(activeTraining && !activeTraining.rpeLevel) {
+            const trainingText = activeTraining.realizationDate + ' - ' +  activeTraining.type + ': Total training time: ' 
+                + (activeTraining.timeInSeconds/60).toFixed(1) + ' minutes /' + ' Distance: '
+                + (activeTraining.distanceInMeters/1000).toFixed(2) + ' km. '
+            return (
+                <div>
+                    {trainingText}
+                    <button className = "btn btn-outline-dark m-1" 
+                        onClick = {() => handleAddFeelings(activeTraining.id)}>Add feelings
+                    </button>
+                    {feelingsBoxVisible && feelingBox()}
+
+                </div>
+            )
+        }
+    }
+    const [feelingsBoxVisible, setFeelingsBoxVisible] = useState(false)
+    function handleAddFeelings(id) {
+        if(feelingsBoxVisible){
+            setFeelingsBoxVisible(false)
+        } else setFeelingsBoxVisible(true)
+    }
+    function feelingBox() {
+        return (
+        <div>
+            <label>Feelings:</label>
+                <select className = "form-select">
+                    <option value = 'STRONG'>STRONG</option>
+                    <option value = 'GOOD'>GOOD</option>
+                    <option value = 'NORMAL'>NORMAL</option>
+                    <option value = 'BAD'>BAD</option>
+                    <option value = 'WEAK'>WEAK</option>
+                </select>
+            <label>RPE:</label>    
+                <select className = "form-select">
+                    <option value = '0'>0</option>
+                    <option value = '1'>1</option>
+                    <option value = '2'>2</option>
+                    <option value = '3'>3</option>
+                    <option value = '4'>4</option>
+                    <option value = '5'>5</option>
+                    <option value = '6'>6</option>
+                    <option value = '7'>7</option>
+                    <option value = '8'>8</option>
+                    <option value = '9'>9</option>
+                    <option value = '10'>10</option>
+                </select>
+            <label>Description:</label> 
+                <input type = "text" maxLength = {80} className="form-control"></input>
+            <button className = "btn btn-outline-dark m-2">Save</button>
+        </div>
+        )
+    }
+    
+
 
     return(
         <div className="AthleteComponent">
@@ -90,6 +151,12 @@ export default function AthleteComponent() {
             <h2>Athlete</h2>
 
             {WeekdayList(trainingPlans, trainingRealizations, onTrainingClick)}
+
+            <div className="training-box">
+                {handleTrainingView()}
+            </div>
+
+            {/* <button onClick={() => {console.log(activeTraining)}}>test</button> */}
 
             <br></br>
 

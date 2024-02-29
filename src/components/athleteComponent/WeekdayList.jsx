@@ -34,7 +34,7 @@ export default function WeekdayList(trainingPlans, trainingRealizations, onTrain
     if(found) {
       return (
         <div>
-          <button className = "btn btn-outline-dark" onClick = {() => handleOnClick(found.id)}>{planTextField(found)}</button>
+          <button className = "btn btn-outline-dark" onClick = {() => onTrainingClick(found)}>{planTextField(found)}</button>
         </div>
       )
     } return ''
@@ -50,16 +50,13 @@ export default function WeekdayList(trainingPlans, trainingRealizations, onTrain
     if(found) {
       return (
         <div>
-          <button className = "btn btn-outline-dark" onClick = {() => handleOnClick(found.id)}>{realizationTextField(found)}</button>
+          <button className = "btn btn-outline-dark" onClick = {() => onTrainingClick(found)}>{realizationTextField(found)}</button>
         </div>
       )
     } return ''
   }
   function realizationTextField(realization) {
     return 'Realization: ' + realization.type + ' / ' + realization.name + ' / ' + realization.distanceInMeters
-  }
-  function handleOnClick(id) {
-    onTrainingClick(id)
   }
 
   function formatDate(date) {
@@ -81,11 +78,11 @@ export default function WeekdayList(trainingPlans, trainingRealizations, onTrain
             <div className = "row">
               <div className = "col">{day.toDateString()}</div>
               <div className = "col">
-                <div className="box">{handleTrainingPlanField(day)}</div>
+                {handleTrainingPlanField(day)}
               </div>
               <div className = "col">
-                <div className = "box">{handleTrainingRealizationField(day)}</div>
-                </div>
+                {handleTrainingRealizationField(day)}
+              </div>
             </div>
           </li>
         ))}
