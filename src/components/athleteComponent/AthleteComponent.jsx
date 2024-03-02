@@ -92,7 +92,7 @@ export default function AthleteComponent() {
                     <button className = "btn btn-outline-dark m-1" 
                         onClick = {() => handleAddFeelings(activeTraining.id)}>Add feelings
                     </button>
-                    {feelingsBoxVisible && <FeelingBox/>}
+                    {feelingsBoxVisible && <FeelingBox trainingId = {activeTraining.id}/>}
                 </div>
             )
         }
@@ -103,9 +103,6 @@ export default function AthleteComponent() {
             setFeelingsBoxVisible(false)
         } else setFeelingsBoxVisible(true)
     }
-
-    
-
 
     return(
         <div className="AthleteComponent">
