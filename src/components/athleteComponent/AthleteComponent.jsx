@@ -2,10 +2,10 @@ import { useEffect, useState } from "react"
 import { getTrainingPlansByAthleteId } from "../api/TrainingPlanApiService"
 import { getTrainingRealizationsByAthleteId, synchronizeActivitiesForAthleteApi } from "../api/TrainingRealizationApiService"
 import { trainingPlanTableHeaders, trainingRealizationTableHeaders } from "../labels/TableLabels"
-import { refreshAccessTokenForUserApi } from "../api/UserApiService"
 import { useAuth } from "../security/AuthContext"
 import moment from 'moment'
 import WeekdayList from "./WeekdayList"
+import FeelingBox from "./FeelingBox"
 
 export default function AthleteComponent() {
 
@@ -45,7 +45,9 @@ export default function AthleteComponent() {
     }
     function handleSynchronizeButton() {
         if(isAccessTokenNotExpired()){
-            refreshAccessToken()
+            if(authContext.refreshAccessToken()){
+                synchronizeActivitiesForAthlete()
+            }
         } else {
             synchronizeActivitiesForAthlete()
         }
@@ -57,15 +59,6 @@ export default function AthleteComponent() {
             return true
         }
         return false
-    }
-
-    function refreshAccessToken() { // it should be in auth context !
-        refreshAccessTokenForUserApi(authContext.userId)
-            .then(response => {
-                synchronizeActivitiesForAthlete()
-                console.log(response)
-            })
-            .catch(error => console.log(error))
     }
     function synchronizeActivitiesForAthlete() {
         synchronizeActivitiesForAthleteApi(authContext.athleteId)
@@ -99,8 +92,7 @@ export default function AthleteComponent() {
                     <button className = "btn btn-outline-dark m-1" 
                         onClick = {() => handleAddFeelings(activeTraining.id)}>Add feelings
                     </button>
-                    {feelingsBoxVisible && feelingBox()}
-
+                    {feelingsBoxVisible && <FeelingBox/>}
                 </div>
             )
         }
@@ -111,37 +103,7 @@ export default function AthleteComponent() {
             setFeelingsBoxVisible(false)
         } else setFeelingsBoxVisible(true)
     }
-    function feelingBox() {
-        return (
-        <div>
-            <label>Feelings:</label>
-                <select className = "form-select">
-                    <option value = 'STRONG'>STRONG</option>
-                    <option value = 'GOOD'>GOOD</option>
-                    <option value = 'NORMAL'>NORMAL</option>
-                    <option value = 'BAD'>BAD</option>
-                    <option value = 'WEAK'>WEAK</option>
-                </select>
-            <label>RPE:</label>    
-                <select className = "form-select">
-                    <option value = '0'>0</option>
-                    <option value = '1'>1</option>
-                    <option value = '2'>2</option>
-                    <option value = '3'>3</option>
-                    <option value = '4'>4</option>
-                    <option value = '5'>5</option>
-                    <option value = '6'>6</option>
-                    <option value = '7'>7</option>
-                    <option value = '8'>8</option>
-                    <option value = '9'>9</option>
-                    <option value = '10'>10</option>
-                </select>
-            <label>Description:</label> 
-                <input type = "text" maxLength = {80} className="form-control"></input>
-            <button className = "btn btn-outline-dark m-2">Save</button>
-        </div>
-        )
-    }
+
     
 
 

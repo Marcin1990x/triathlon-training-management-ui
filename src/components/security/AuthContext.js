@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { executeJwtAuthenticationService } from "../api/AuthenticationApiService"
 import { apiClient } from "../api/ApiClient";
+import { refreshAccessTokenForUserApi } from "../api/UserApiService";
 
 export const AuthContext = createContext()
 export const useAuth = () => useContext(AuthContext)
@@ -58,8 +59,21 @@ export default function AuthProvider({children}) {
         setStravaAccessExpiresAt(null)
     }
 
+    function refreshAccessToken() {
+        refreshAccessTokenForUserApi(userId)
+            .then(response => {
+                console.log(response)
+                return true 
+            })
+            .catch(error => {
+                console.log(error)
+                return false
+            })
+    }
+
     return (
-        <AuthContext.Provider value = {{login, token, isAuthenticated, userId, athleteId, hasRefreshToken, stravaAccessExpiresAt}}>
+        <AuthContext.Provider value = {{login, token, isAuthenticated, userId, athleteId, 
+                                hasRefreshToken, stravaAccessExpiresAt, refreshAccessToken}}>
             {children}
         </AuthContext.Provider>
     )
