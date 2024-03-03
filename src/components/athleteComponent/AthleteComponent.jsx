@@ -6,6 +6,7 @@ import { useAuth } from "../security/AuthContext"
 import moment from 'moment'
 import WeekdayList from "./WeekdayList"
 import FeelingBox from "./FeelingBox"
+import TrainingView from "./TrainingView"
 
 export default function AthleteComponent() {
 
@@ -15,6 +16,7 @@ export default function AthleteComponent() {
     const [trainingRealizations, setTrainingRealizations] = useState([])
 
     const [render, setRender] = useState(0)
+    const reRender = () => setRender(render + 1)
 
     useEffect ( () => {
          getTrainingPlans()
@@ -47,6 +49,7 @@ export default function AthleteComponent() {
         if(isAccessTokenNotExpired()){
             if(authContext.refreshAccessToken()){
                 synchronizeActivitiesForAthlete()
+                setRender(render + 1)
             }
         } else {
             synchronizeActivitiesForAthlete()
@@ -56,6 +59,7 @@ export default function AthleteComponent() {
         var currentTime = moment()
         var givenTime = moment(authContext.stravaAccessExpiresAt * 1000)
         if(givenTime.isBefore(currentTime)) {
+            console.log(authContext.stravaAccessExpiresAt)
             return true
         }
         return false
@@ -72,36 +76,6 @@ export default function AthleteComponent() {
     const [activeTraining, setActiveTraining] = useState(null)
     function onTrainingClick(training) {
         setActiveTraining(training)
-        setFeelingsBoxVisible(false)
-    }
-    function handleTrainingView() {
-        if(activeTraining && activeTraining.trainingPlanStatus) {
-            const trainingText = 'Plan for ' + activeTraining.plannedDate + ' - ' +  activeTraining.trainingType + ' ' 
-                + activeTraining.name + ': ' + activeTraining.description + ' '
-            return (
-                trainingText
-            )
-        }
-        if(activeTraining && !activeTraining.rpeLevel) {
-            const trainingText = activeTraining.realizationDate + ' - ' +  activeTraining.type + ': Total training time: ' 
-                + (activeTraining.timeInSeconds/60).toFixed(1) + ' minutes /' + ' Distance: '
-                + (activeTraining.distanceInMeters/1000).toFixed(2) + ' km. '
-            return (
-                <div>
-                    {trainingText}
-                    <button className = "btn btn-outline-dark m-1" 
-                        onClick = {() => handleAddFeelings(activeTraining.id)}>Add feelings
-                    </button>
-                    {feelingsBoxVisible && <FeelingBox trainingId = {activeTraining.id}/>}
-                </div>
-            )
-        }
-    }
-    const [feelingsBoxVisible, setFeelingsBoxVisible] = useState(false)
-    function handleAddFeelings(id) {
-        if(feelingsBoxVisible){
-            setFeelingsBoxVisible(false)
-        } else setFeelingsBoxVisible(true)
     }
 
     return(
@@ -112,7 +86,7 @@ export default function AthleteComponent() {
             {WeekdayList(trainingPlans, trainingRealizations, onTrainingClick)}
 
             <div className="training-box">
-                {handleTrainingView()}
+                <TrainingView training = {activeTraining} render = {reRender} />
             </div>
 
             {/* <button onClick={() => {console.log(activeTraining)}}>test</button> */}

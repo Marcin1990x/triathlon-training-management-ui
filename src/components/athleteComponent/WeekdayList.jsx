@@ -74,7 +74,7 @@ export default function WeekdayList(trainingPlans, trainingRealizations, onTrain
       <button className = "btn btn-outline-success m-2" onClick={() => handleNextWeek()}>Next Week</button>
       <ul className = "list-group">
         {getWeekdays(currentDate).map((day, index) => (
-          <li className = "list-group-item" key={index}>
+          <li className = "weekdays-list" key={index}>
             <div className = "row">
               <div className = "col">{day.toDateString()}</div>
               <div className = "col">
