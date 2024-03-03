@@ -5,7 +5,6 @@ import { trainingPlanTableHeaders, trainingRealizationTableHeaders } from "../la
 import { useAuth } from "../security/AuthContext"
 import moment from 'moment'
 import WeekdayList from "./WeekdayList"
-import FeelingBox from "./FeelingBox"
 import TrainingView from "./TrainingView"
 
 export default function AthleteComponent() {
@@ -16,7 +15,9 @@ export default function AthleteComponent() {
     const [trainingRealizations, setTrainingRealizations] = useState([])
 
     const [render, setRender] = useState(0)
-    const reRender = () => setRender(render + 1)
+    const reRender = () => {
+        setRender(render + 1)
+    }
 
     useEffect ( () => {
          getTrainingPlans()
@@ -81,9 +82,9 @@ export default function AthleteComponent() {
     return(
         <div className="AthleteComponent">
 
-            <h2>Athlete</h2>
+            <h2>Athlete page</h2>
 
-            {WeekdayList(trainingPlans, trainingRealizations, onTrainingClick)}
+            <WeekdayList plans = {trainingPlans} realizations = {trainingRealizations} onDayFieldClick = {onTrainingClick}/>
 
             <div className="training-box">
                 <TrainingView training = {activeTraining} render = {reRender} />

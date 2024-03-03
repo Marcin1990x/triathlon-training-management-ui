@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './styles.css'
 
-export default function WeekdayList(trainingPlans, trainingRealizations, onTrainingClick) {
+const  WeekdayList = (props) =>  {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   function getWeekdays(date) {
@@ -27,30 +27,35 @@ export default function WeekdayList(trainingPlans, trainingRealizations, onTrain
     nextWeek.setDate(nextWeek.getDate() + 7);
     setCurrentDate(nextWeek);
   }
+  const TrainingButton = (properties) => {
+    return (
+      <button className = "btn btn-outline-dark" onClick = {() => props.onDayFieldClick(properties.training)}>
+        {properties.textField(properties.training)}
+      </button>
+    )
+  }
 
-  function handleTrainingPlanField(date){
-
-    const found = trainingPlans.find((plan => plan.plannedDate === formatDate(date)))
+  function handleTrainingPlanField(date){ // todo: view all
+    const found = props.plans.find((plan => plan.plannedDate === formatDate(date)))
     if(found) {
       return (
         <div>
-          <button className = "btn btn-outline-dark" onClick = {() => onTrainingClick(found)}>{planTextField(found)}</button>
+          <TrainingButton training = {found} textField = {planTextField}/>
         </div>
       )
     } return ''
   }
   function planTextField(plan) {
-    return 'Plan: ' + plan.trainingType + ' / ' + plan.name + ' / ' + plan.description
+    return 'Plan: ' + plan.trainingType + ' / ' + plan.name
   }
 
-  function handleTrainingRealizationField(date){
+  function handleTrainingRealizationField(date){ // todo: view all
+    const found = props.realizations.find((realization => realization.realizationDate === formatDate(date)))
 
-    const found = trainingRealizations.find((realization => realization.realizationDate === formatDate(date)))
-    
     if(found) {
       return (
         <div>
-          <button className = "btn btn-outline-dark" onClick = {() => onTrainingClick(found)}>{realizationTextField(found)}</button>
+          <TrainingButton training = {found} textField = {realizationTextField}/>
         </div>
       )
     } return ''
@@ -90,3 +95,5 @@ export default function WeekdayList(trainingPlans, trainingRealizations, onTrain
     </div>
   )
 }
+
+export default WeekdayList

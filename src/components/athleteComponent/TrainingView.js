@@ -1,7 +1,13 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import FeelingBox from "./FeelingBox"
 
 const TrainingView = (props) => {
+
+    const [training, setTraining] = useState(props.training)
+
+    useEffect ( () => {
+        setTraining(props.training) // todo: update after save
+    })
 
     const [feelingsBoxVisible, setFeelingsBoxVisible] = useState(false)
     function handleAddFeelings(id) {
@@ -9,25 +15,31 @@ const TrainingView = (props) => {
             setFeelingsBoxVisible(false)
         } else setFeelingsBoxVisible(true)
     }
-
-    if(props.training && props.training.trainingPlanStatus) {
-        const trainingText = 'Plan for ' + props.training.plannedDate + ' - ' +  props.training.trainingType + ' ' 
-            + props.training.name + ': ' + props.training.description + ' '
+    if(training && training.trainingPlanStatus) {
+        const trainingText = 'Plan for ' + training.plannedDate + ' - ' + training.trainingType + ' ' 
+            + training.name + ': ' + training.description + ' '
         return (
             trainingText
         )
     }
-    if(props.training && props.training.rpeLevel) {
-        const trainingText = props.training.realizationDate + ' - ' +  props.training.type + ': Total training time: ' 
-            + (props.training.timeInSeconds/60).toFixed(1) + ' minutes /' + ' Distance: '
-            + (props.training.distanceInMeters/1000).toFixed(2) + ' km. '
+    if(training && training.timeInSeconds >= 0) {
+        const trainingText = training.realizationDate + ' - ' +  training.type + ': Total training time: ' 
+            + (training.timeInSeconds/60).toFixed(1) + ' minutes /' + ' Distance: '
+            + (training.distanceInMeters/1000).toFixed(2) + ' km '
+        const trainingFeelings = 'I feel ' + training.feelings + ' Rpe: ' + training.rpeLevel + ' Description: '
+            + training.realizationDescription
+        
         return (
             <div>
-                {trainingText}
+                <div className = "training-text">
+                    {trainingText} 
+                    <br/>
+                    {training.feelings && trainingFeelings}
+                </div>
                 <button className = "btn btn-outline-dark m-1" 
-                    onClick = {() => handleAddFeelings(props.training.id)}>Add feelings
+                    onClick = {() => handleAddFeelings(training.id)}>Add feelings
                 </button>
-                {feelingsBoxVisible && <FeelingBox trainingId = {props.training.id} render = {props.render}/>}
+                {feelingsBoxVisible && <FeelingBox trainingId = {training.id} render = {props.render}/>}
             </div>
         )
     }
