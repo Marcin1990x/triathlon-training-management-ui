@@ -25,6 +25,7 @@ const FeelingBox = (props) => {
             .then(response => {
                 console.log(response)
                 props.refreshUpdatedTraining(response.data)
+                props.refreshTrainings()
             })
             .catch(error => console.log(error))
     }

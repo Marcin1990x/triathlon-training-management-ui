@@ -13,6 +13,9 @@ export default function AuthProvider({children}) {
     const [token, setToken] = useState(null)
     const [userId, setUserId] = useState(null)
     const [athleteId, setAthleteId] = useState(null)
+    const [isAthlete, setIsAthlete] = useState(false)
+    const [coachId, setCoachId] = useState(null)
+    const [isCoach, setIsCoach] = useState(false)
     const [hasRefreshToken, setHasRefreshToken] = useState(false)
     const [stravaAccessExpiresAt, setStravaAccessExpiresAt] = useState(null)
 
@@ -29,6 +32,9 @@ export default function AuthProvider({children}) {
                 setAuthenticated(true)
                 setUserId(response.data.userId)
                 setAthleteId(response.data.athleteId)
+                setIsAthlete(response.data.athlete)
+                setCoachId(response.data.coachId)
+                setIsCoach(response.data.coach)
                 setHasRefreshToken(response.data.hasRefreshToken)
                 setStravaAccessExpiresAt(response.data.stravaAccessExpiresAt)
 
@@ -55,6 +61,9 @@ export default function AuthProvider({children}) {
         setToken(null)
         setUserId(null)
         setAthleteId(null)
+        setIsAthlete(false)
+        setCoachId(null)
+        setIsCoach(false)
         setHasRefreshToken(false)
         setStravaAccessExpiresAt(null)
     }
@@ -72,7 +81,7 @@ export default function AuthProvider({children}) {
     }
 
     return (
-        <AuthContext.Provider value = {{login, token, isAuthenticated, userId, athleteId, 
+        <AuthContext.Provider value = {{login, token, isAuthenticated, userId, athleteId, isAthlete, coachId, isCoach,
                                 hasRefreshToken, stravaAccessExpiresAt, refreshAccessToken}}>
             {children}
         </AuthContext.Provider>

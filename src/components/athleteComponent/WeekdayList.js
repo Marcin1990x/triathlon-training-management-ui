@@ -35,11 +35,17 @@ const  WeekdayList = (props) =>  {
     )
   }
 
-  function handleTrainingPlanField(date){ // todo: view all
+  function handleTrainingPlanField(date){
     const filtered = props.plans.filter((plan => plan.plannedDate === formatDate(date)))
     if(filtered.length > 0) {
       return (
-        filtered.map((plan) => (<div><TrainingButton training = {plan} textField = {planTextField}/></div>))
+        <div className = "row">
+            {filtered.map((plan) => ( 
+              <div className = "col">
+                <div><TrainingButton training = {plan} textField = {planTextField}/></div> 
+              </div>  
+            ))}
+        </div>
       )
     } return 'Rest day'
   }
@@ -51,12 +57,18 @@ const  WeekdayList = (props) =>  {
     const filtered = props.realizations.filter((realization => realization.realizationDate === formatDate(date)))
     if(filtered.length > 0) {
         return(
-          filtered.map((realization) => ( <div><TrainingButton training = {realization} textField = {realizationTextField}/></div> ))
+          <div className = "row">
+            {filtered.map((realization) => ( 
+              <div className = "col">
+                <div><TrainingButton training = {realization} textField = {realizationTextField}/></div> 
+              </div>  
+              ))}
+          </div>
         )
     } return 'No realization'
   }
   function realizationTextField(realization) {
-    return 'Realization: ' + realization.type + ' / ' + realization.name + ' / ' + realization.distanceInMeters
+    return 'Realization: ' + realization.type + ' / ' + realization.name + ' / ' + (realization.distanceInMeters/1000).toFixed(1) + 'km'
   }
 
   function formatDate(date) {

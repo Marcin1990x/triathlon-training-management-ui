@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { getTrainingPlansByAthleteId } from "../api/TrainingPlanApiService"
 import { getTrainingRealizationsByAthleteId, synchronizeActivitiesForAthleteApi } from "../api/TrainingRealizationApiService"
-import { trainingPlanTableHeaders, trainingRealizationTableHeaders } from "../labels/TableLabels"
 import { useAuth } from "../security/AuthContext"
 import moment from 'moment'
 import WeekdayList from "./WeekdayList"
@@ -15,6 +14,10 @@ export default function AthleteComponent() {
     const [trainingRealizations, setTrainingRealizations] = useState([])
 
     const [render, setRender] = useState(0)
+
+    function reRender() {
+        setRender(render + 1)
+    }
 
     useEffect ( () => {
          getTrainingPlans()
@@ -79,7 +82,7 @@ export default function AthleteComponent() {
             <WeekdayList plans = {trainingPlans} realizations = {trainingRealizations} onDayFieldClick = {setActiveTrainingFunction}/>
 
             <div className="training-box">
-                <TrainingView training = {activeTraining} refreshUpdatedTraining = {setActiveTrainingFunction} /> 
+                <TrainingView training = {activeTraining} refreshUpdatedTraining = {setActiveTrainingFunction} refreshTrainings = {reRender}/> 
             </div>
 
             {/* <button onClick={() => {console.log(activeTraining)}}>test</button> */}

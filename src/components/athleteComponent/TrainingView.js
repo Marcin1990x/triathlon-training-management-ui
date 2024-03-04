@@ -35,7 +35,10 @@ const TrainingView = (props) => {
                 <button className = "btn btn-outline-dark m-1" 
                     onClick = {() => handleAddFeelings(training.id)}>Add feelings
                 </button>
-                {feelingsBoxVisible && <FeelingBox trainingId = {training.id} refreshUpdatedTraining = {props.refreshUpdatedTraining}/>}
+                {
+                    feelingsBoxVisible && <FeelingBox trainingId = {training.id} 
+                        refreshUpdatedTraining = {props.refreshUpdatedTraining} refreshTrainings = {props.refreshTrainings}/>
+                }
             </div>
         )
     }

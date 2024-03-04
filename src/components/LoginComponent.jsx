@@ -17,11 +17,15 @@ export default function LoginComponent() {
         setPassword(event.target.value)
     }
     async function handleSubmit() {
-        if(await authContext.login(username, password)) {
-            navigate('/athlete') 
+        if(await authContext.login(username, password)) { // need to click twice - fix
+            if(authContext.isAthlete) {
+                navigate('/athlete') 
+            }
+            if(authContext.isCoach) {
+                navigate('/coach')
+            }
         }
     }
-
     return(
         <div className="LoginComponent">
            <h3>Login please!</h3> 
