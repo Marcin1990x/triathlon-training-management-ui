@@ -22,9 +22,9 @@ const FeelingBox = (props) => {
         setRpe(0)
 
         updateTrainingRealizationByIdApi(props.trainingId, updateRequest)
-            .then(reponse => {
-                console.log(reponse)
-                props.render()
+            .then(response => {
+                console.log(response)
+                props.refreshUpdatedTraining(response.data)
             })
             .catch(error => console.log(error))
     }

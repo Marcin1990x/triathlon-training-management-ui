@@ -29,36 +29,31 @@ const  WeekdayList = (props) =>  {
   }
   const TrainingButton = (properties) => {
     return (
-      <button className = "btn btn-outline-dark" onClick = {() => props.onDayFieldClick(properties.training)}>
+      <button className = "btn btn-outline-dark m-1" onClick = {() => props.onDayFieldClick(properties.training)}>
         {properties.textField(properties.training)}
       </button>
     )
   }
 
   function handleTrainingPlanField(date){ // todo: view all
-    const found = props.plans.find((plan => plan.plannedDate === formatDate(date)))
-    if(found) {
+    const filtered = props.plans.filter((plan => plan.plannedDate === formatDate(date)))
+    if(filtered.length > 0) {
       return (
-        <div>
-          <TrainingButton training = {found} textField = {planTextField}/>
-        </div>
+        filtered.map((plan) => (<div><TrainingButton training = {plan} textField = {planTextField}/></div>))
       )
-    } return ''
+    } return 'Rest day'
   }
   function planTextField(plan) {
     return 'Plan: ' + plan.trainingType + ' / ' + plan.name
   }
 
-  function handleTrainingRealizationField(date){ // todo: view all
-    const found = props.realizations.find((realization => realization.realizationDate === formatDate(date)))
-
-    if(found) {
-      return (
-        <div>
-          <TrainingButton training = {found} textField = {realizationTextField}/>
-        </div>
-      )
-    } return ''
+  function handleTrainingRealizationField(date){
+    const filtered = props.realizations.filter((realization => realization.realizationDate === formatDate(date)))
+    if(filtered.length > 0) {
+        return(
+          filtered.map((realization) => ( <div><TrainingButton training = {realization} textField = {realizationTextField}/></div> ))
+        )
+    } return 'No realization'
   }
   function realizationTextField(realization) {
     return 'Realization: ' + realization.type + ' / ' + realization.name + ' / ' + realization.distanceInMeters

@@ -3,11 +3,7 @@ import FeelingBox from "./FeelingBox"
 
 const TrainingView = (props) => {
 
-    const [training, setTraining] = useState(props.training)
-
-    useEffect ( () => {
-        setTraining(props.training) // todo: update after save
-    })
+    const training = props.training
 
     const [feelingsBoxVisible, setFeelingsBoxVisible] = useState(false)
     function handleAddFeelings(id) {
@@ -39,7 +35,7 @@ const TrainingView = (props) => {
                 <button className = "btn btn-outline-dark m-1" 
                     onClick = {() => handleAddFeelings(training.id)}>Add feelings
                 </button>
-                {feelingsBoxVisible && <FeelingBox trainingId = {training.id} render = {props.render}/>}
+                {feelingsBoxVisible && <FeelingBox trainingId = {training.id} refreshUpdatedTraining = {props.refreshUpdatedTraining}/>}
             </div>
         )
     }
