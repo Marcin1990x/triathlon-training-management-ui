@@ -44,15 +44,19 @@ export default function AuthProvider({children}) {
                             return config
                         }
                     )
-                return true
+                if(response.data.athlete) {
+                    return 'athlete'
+                } else if(response.data.coach) {
+                    return 'coach'
+                }
             } else {
                 logout()
-                return false
+                return 'login failed'
             }
  
         } catch (error) {
             logout()
-            return false
+            return 'login failed'
         }
     }
 
@@ -79,7 +83,6 @@ export default function AuthProvider({children}) {
                 return false
             })
     }
-
     return (
         <AuthContext.Provider value = {{login, token, isAuthenticated, userId, athleteId, isAthlete, coachId, isCoach,
                                 hasRefreshToken, stravaAccessExpiresAt, refreshAccessToken}}>

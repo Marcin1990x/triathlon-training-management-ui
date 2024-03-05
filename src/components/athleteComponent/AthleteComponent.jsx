@@ -54,8 +54,7 @@ export default function AthleteComponent() {
     function isAccessTokenNotExpired() {
         var currentTime = moment()
         var givenTime = moment(authContext.stravaAccessExpiresAt * 1000)
-        if(givenTime.isBefore(currentTime)) {
-            console.log(authContext.stravaAccessExpiresAt)
+        if(authContext.stravaAccessExpiresAt != null && givenTime.isBefore(currentTime)) {
             return true
         }
         return false

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import FeelingBox from "./FeelingBox"
 
 const TrainingView = (props) => {
@@ -6,7 +6,7 @@ const TrainingView = (props) => {
     const training = props.training
 
     const [feelingsBoxVisible, setFeelingsBoxVisible] = useState(false)
-    function handleAddFeelings(id) {
+    function handleAddFeelings() {
         if(feelingsBoxVisible){
             setFeelingsBoxVisible(false)
         } else setFeelingsBoxVisible(true)
