@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getTrainingPlansByAthleteId } from "../api/TrainingPlanApiService"
+import { getTrainingPlansByAthleteIdApi } from "../api/TrainingPlanApiService"
 import { getTrainingRealizationsByAthleteId, synchronizeActivitiesForAthleteApi } from "../api/TrainingRealizationApiService"
 import { useAuth } from "../security/AuthContext"
 import moment from 'moment'
@@ -26,7 +26,7 @@ export default function AthleteComponent() {
          
 
     function getTrainingPlans() {
-        getTrainingPlansByAthleteId(authContext.athleteId)
+        getTrainingPlansByAthleteIdApi(authContext.athleteId)
             .then(response => {
                 console.log(response)
                 setTrainingPlans(response.data)
@@ -42,7 +42,7 @@ export default function AthleteComponent() {
             .catch(error => console.log(error))
     }
     function handleSynchronizeButton() {
-        if(isAccessTokenNotExpired()){
+        if(isAccessTokenExpired()){
             if(authContext.refreshAccessToken()){
                 synchronizeActivitiesForAthlete()
                 setRender(render + 1)
@@ -51,13 +51,18 @@ export default function AthleteComponent() {
             synchronizeActivitiesForAthlete()
         }
     }
-    function isAccessTokenNotExpired() {
-        var currentTime = moment()
-        var givenTime = moment(authContext.stravaAccessExpiresAt * 1000)
-        if(authContext.stravaAccessExpiresAt != null && givenTime.isBefore(currentTime)) {
+    function isAccessTokenExpired() { // problem! fix
+        console.log(authContext.stravaAccessExpiresAt)
+        if(authContext.stravaAccessExpiresAt == null) {
+            console.log('return true: no expiresAt')
             return true
         }
-        return false
+        var currentTime = moment()
+        var givenTime = moment(authContext.stravaAccessExpiresAt * 1000)
+        if(givenTime.isBefore(currentTime)) {
+            console.log('return true: invalid accessToken')
+            return true
+        } else return false
     }
     function synchronizeActivitiesForAthlete() {
         synchronizeActivitiesForAthleteApi(authContext.athleteId)
