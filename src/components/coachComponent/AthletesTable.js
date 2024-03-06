@@ -1,6 +1,6 @@
 const AthletesTable = ({ athletes }) => {
     return (
-      <table className="table">
+      <table className="table table-striped">
         <thead>
           <tr>
             <th>ID</th>

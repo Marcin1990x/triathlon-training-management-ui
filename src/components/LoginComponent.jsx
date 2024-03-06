@@ -1,11 +1,14 @@
 import { useState } from "react"
 import { useAuth } from "./security/AuthContext"
 import { useNavigate } from "react-router-dom"
+import { Toaster, toast } from "react-hot-toast"
 
 export default function LoginComponent() {
 
     const authContext = useAuth()
     const navigate = useNavigate()
+
+    const errorToast = (message) => toast.error(message)
 
     const [username, setUsername] = useState('login')
     const [password, setPassword] = useState('password')
@@ -25,10 +28,13 @@ export default function LoginComponent() {
             } else {
                 navigate('/coach')
             }
+        } else {
+            errorToast('Login failed.')
         }
     }
     return(
         <div className="LoginComponent">
+            <Toaster toastOptions={{duration: 1500}}/>
            <h3>Login please!</h3> 
            
            <div className="row">

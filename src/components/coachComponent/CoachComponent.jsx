@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import CoachAthletesComponent from "./CoachAthletesComponent"
 import CoachTrainingPlansComponent from "./CoachTrainingPlansComponent"
+import CoachTrainingPlanDetailsComponent from "./CoachTrainingPlanDetailsComponent"
 import { getAthletesByCoachIdApi } from "../api/AthletesApiService"
 import { useAuth } from "../security/AuthContext"
 import { getTrainingPlansByCoachIdApi } from "../api/TrainingPlanApiService"
@@ -16,6 +17,7 @@ export default function CoachComponent() {
         getAthletes()
         getTrainingPlans()
     }, [])
+
 
     function getAthletes() {
         getAthletesByCoachIdApi(authContext.coachId)
@@ -33,6 +35,12 @@ export default function CoachComponent() {
             })
             .catch(error => console.log(error))
     }
+
+    const [activePlan, setActivePlan] = useState(null)
+    function activatePlan(plan) {
+        setActivePlan(plan)
+    }
+
     return (
         <div className = "CoachComponent">
             <h2>Coach page</h2>
@@ -42,9 +50,11 @@ export default function CoachComponent() {
                     <CoachAthletesComponent athletes = {athletes}/>
                 </div>
                 <div className="col">
-                    <CoachTrainingPlansComponent trainingPlans = {plans}/>
+                    <CoachTrainingPlansComponent trainingPlans = {plans} setActivePlan={activatePlan}/>
                 </div>
-                <div className="col"></div>
+                <div className="col">
+                    <CoachTrainingPlanDetailsComponent activePlan = {activePlan}/>
+                </div>
             </div>
         </div>
     )
