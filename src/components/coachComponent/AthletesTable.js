@@ -1,4 +1,4 @@
-const AthletesTable = ({ athletes }) => {
+const AthletesTable = ({ athletes, onClickAthlete }) => {
     return (
       <table className="table table-striped">
         <thead>
@@ -9,11 +9,12 @@ const AthletesTable = ({ athletes }) => {
           </tr>
         </thead>
         <tbody>
-          {athletes.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.firstName}</td>
-              <td>{item.lastName}</td>
+          {athletes.map((athlete) => (
+            <tr key={athlete.id}>
+              <td>{athlete.id}</td>
+              <td>{athlete.firstName}</td>
+              <td>{athlete.lastName}</td>
+              <td><button className="btn btn-outline-primary" onClick={() => onClickAthlete(athlete.id)}>+</button></td>
             </tr>
           ))}
         </tbody>

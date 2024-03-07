@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { getTrainingPlansByAthleteIdApi } from "../api/TrainingPlanApiService"
-import { getTrainingRealizationsByAthleteId, synchronizeActivitiesForAthleteApi } from "../api/TrainingRealizationApiService"
+import { getTrainingRealizationsByAthleteIdApi, synchronizeActivitiesForAthleteApi } from "../api/TrainingRealizationApiService"
 import { useAuth } from "../security/AuthContext"
 import moment from 'moment'
 import WeekdayList from "./WeekdayList"
@@ -34,7 +34,7 @@ export default function AthleteComponent() {
             .catch(error => console.log(error))
     }
     function getTrainingRealizations() {
-        getTrainingRealizationsByAthleteId(authContext.athleteId)
+        getTrainingRealizationsByAthleteIdApi(authContext.athleteId)
             .then(response => {
                 console.log(response)
                 setTrainingRealizations(response.data)
@@ -88,8 +88,6 @@ export default function AthleteComponent() {
             <div className="training-box">
                 <TrainingView training = {activeTraining} refreshUpdatedTraining = {setActiveTrainingFunction} refreshTrainings = {reRender}/> 
             </div>
-
-            {/* <button onClick={() => {console.log(activeTraining)}}>test</button> */}
             <button className = "btn btn-outline-success m-2" onClick = {() => handleSynchronizeButton()}>Synchronize with Strava</button>
         </div>
     )

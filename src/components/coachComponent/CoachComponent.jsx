@@ -2,9 +2,11 @@ import { useEffect, useState } from "react"
 import CoachAthletesComponent from "./CoachAthletesComponent"
 import CoachTrainingPlansComponent from "./CoachTrainingPlansComponent"
 import CoachTrainingPlanDetailsComponent from "./CoachTrainingPlanDetailsComponent"
+import CoachAthleteWeek from "./CoachAthleteWeek"
 import { getAthletesByCoachIdApi } from "../api/AthletesApiService"
 import { useAuth } from "../security/AuthContext"
-import { getTrainingPlansByCoachIdApi } from "../api/TrainingPlanApiService"
+import { getTrainingPlansByAthleteIdApi, getTrainingPlansByCoachIdApi } from "../api/TrainingPlanApiService"
+import { getTrainingRealizationsByAthleteIdApi } from "../api/TrainingRealizationApiService"
 
 export default function CoachComponent() {
 
@@ -15,9 +17,33 @@ export default function CoachComponent() {
 
     useEffect( () => {
         getAthletes()
-        getTrainingPlans()
+        getCoachTrainingPlans()
     }, [])
 
+    const [athletePlans, setAthletePlans] = useState([])
+    const [athleteRealizations, setAthleteRealizations] = useState([])
+
+    function getTrainingPlans(id) { // extract to other file
+        getTrainingPlansByAthleteIdApi(id)
+            .then(response => {
+                console.log(response)
+                setAthletePlans(response.data)
+            })
+            .catch(error => console.log(error))
+    }
+    function getTrainingRealizations(id) { // extract to other file
+        getTrainingRealizationsByAthleteIdApi(id)
+            .then(response => {
+                console.log(response)
+                setAthleteRealizations(response.data)
+            })
+            .catch(error => console.log(error))
+    }
+
+    const setPlansAndRealizationsForAthlete = (id) => {
+        getTrainingPlans(id)
+        getTrainingRealizations(id)
+    }
 
     function getAthletes() {
         getAthletesByCoachIdApi(authContext.coachId)
@@ -27,7 +53,7 @@ export default function CoachComponent() {
             })
             .catch(error => console.log(error))
     }
-    function getTrainingPlans() {
+    function getCoachTrainingPlans() {
         getTrainingPlansByCoachIdApi(authContext.coachId)
             .then(response => {
                 console.log(response)
@@ -44,16 +70,23 @@ export default function CoachComponent() {
     return (
         <div className = "CoachComponent">
             <h2>Coach page</h2>
-
-            <div className="row">
-                <div className="col">
-                    <CoachAthletesComponent athletes = {athletes}/>
+            <div className="container">
+                <div className="row">
+                    <div className="col-sm-8">
+                        <CoachAthletesComponent athletes = {athletes} onClickAthlete = {setPlansAndRealizationsForAthlete}/>
+                        <CoachAthleteWeek plans = {athletePlans} realizations = {athleteRealizations}/>
+                    </div>
+                    <div className="col-sm-4">
+                        <CoachTrainingPlansComponent trainingPlans = {plans} setActivePlan={activatePlan}/>
+                    </div>
                 </div>
-                <div className="col">
-                    <CoachTrainingPlansComponent trainingPlans = {plans} setActivePlan={activatePlan}/>
-                </div>
-                <div className="col">
-                    <CoachTrainingPlanDetailsComponent activePlan = {activePlan}/>
+                <div className="row">
+                    <div className="col-sm-8">
+                        
+                    </div>
+                    <div className="col-sm-4">
+                        <CoachTrainingPlanDetailsComponent activePlan = {activePlan}/>
+                    </div>
                 </div>
             </div>
         </div>

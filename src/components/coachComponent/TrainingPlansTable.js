@@ -13,7 +13,6 @@ const TrainingPlansTable = ({ plans, setActivePlan}) => {
               <th>Sport</th>
               <th>Name</th>
               <th>Description</th>
-              <th>Preview</th>
             </tr>
           </thead>
           <tbody>

@@ -1,5 +1,7 @@
 const CoachTrainingPlanDetailsComponent = ({activePlan}) => {
 
+    const plan = activePlan
+
     const Stages = () => {
         if(activePlan.stage.length > 0) {
             return (
@@ -34,12 +36,13 @@ const CoachTrainingPlanDetailsComponent = ({activePlan}) => {
         <div>
             <h5>Training plan:</h5>
             <br/>
+            {activePlan && 
             <ul className="list-group list-group-flush">
-                <li className="list-group-item">Number: {activePlan.id}</li>
-                <li className="list-group-item">Name: {activePlan.name}</li>
-                <li className="list-group-item">Description: {activePlan.description}</li>
-            </ul>
-            <Stages/>
+                <li className="list-group-item">Number: {plan.id}</li>
+                <li className="list-group-item">Name: {plan.name}</li>
+                <li className="list-group-item">Description: {plan.description}</li>
+            </ul> }
+            {activePlan && <Stages/>}            
         </div>
     )
 }
