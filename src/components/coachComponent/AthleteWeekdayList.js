@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './styles.css'
 
-const  AthleteWeekdayList = ({plans, realizations}) =>  {
+const  AthleteWeekdayList = ({plans, realizations, removeTrainingPlan}) =>  {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const [weekdaysVisible, setWeekdaysVisible] = useState(false)
@@ -37,7 +37,10 @@ const  AthleteWeekdayList = ({plans, realizations}) =>  {
         <div className = "row">
             {filtered.map((plan) => ( 
               <div className = "col">
-                <div>{planTextField(plan)}</div> 
+                <div>
+                  {planTextField(plan)}
+                  {removeTrainingPlanBtn(plan.id)}
+                </div> 
               </div>  
             ))}
         </div>
@@ -78,6 +81,14 @@ const  AthleteWeekdayList = ({plans, realizations}) =>  {
   const togglePanelVisible = () => {
     setWeekdaysVisible(!weekdaysVisible)
   }
+
+  const addTrainingPlanBtn = (day) => {
+    return <button className = "btn btn-outline-success btn-sm m-1">Add plan</button>
+  }
+  const removeTrainingPlanBtn = (id) => {
+    return <button className = "btn btn-outline-danger btn-sm m-1" onClick={() => removeTrainingPlan(id)}>Remove</button>
+  }
+
   return (
     <div>
       {weekdaysVisible &&
@@ -89,12 +100,9 @@ const  AthleteWeekdayList = ({plans, realizations}) =>  {
               <li className = "athlete-weekdays-list" key={index}>
                 <div className = "row">
                   <div className = "col">{day.toDateString()}</div>
-                  <div className = "col">
-                    {handleTrainingPlanField(day)}
-                  </div>
-                  <div className = "col">
-                    {handleTrainingRealizationField(day)}
-                  </div>
+                  <div className = "col">{addTrainingPlanBtn(day)}</div>
+                  <div className = "col">{handleTrainingPlanField(day)}</div>
+                  <div className = "col">{handleTrainingRealizationField(day)}</div>
                 </div>
               </li>
             ))}

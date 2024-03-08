@@ -5,17 +5,21 @@ import CoachTrainingPlanDetailsComponent from "./CoachTrainingPlanDetailsCompone
 import CoachAthleteWeek from "./CoachAthleteWeek"
 import { getAthletesByCoachIdApi } from "../api/AthletesApiService"
 import { useAuth } from "../security/AuthContext"
-import { getTrainingPlansByAthleteIdApi, getTrainingPlansByCoachIdApi } from "../api/TrainingPlanApiService"
+import { getTrainingPlansByAthleteIdApi, getTrainingPlansByCoachIdApi, removeTrainingPlanFromAthleteApi } from "../api/TrainingPlanApiService"
 import { getTrainingRealizationsByAthleteIdApi } from "../api/TrainingRealizationApiService"
+import { Toaster, toast } from "react-hot-toast"
 
 export default function CoachComponent() {
 
     const authContext = useAuth()
 
     const [athletes, setAthletes] = useState([])
+    const [athleteId, setAthleteId] = useState(null)
     const [plans, setPlans] = useState([])
 
     const [athleteView, setAthleteView] = useState(true) 
+
+    const successToast = (message) => toast.success(message)
 
     const toggleView = () => {
         setAthleteView(!athleteView)
@@ -36,6 +40,7 @@ export default function CoachComponent() {
         getTrainingPlansByAthleteIdApi(id)
             .then(response => {
                 console.log(response)
+                setAthleteId(id)
                 setAthletePlans(response.data)
             })
             .catch(error => console.log(error))
@@ -75,9 +80,21 @@ export default function CoachComponent() {
     function activatePlan(plan) {
         setActivePlan(plan)
     }
+    const removeTrainingPlan = (id) => {
+        removeTrainingPlanFromAthleteApi(athleteId, id)
+            .then(reponse => {
+                console.log(reponse)
+                setPlansAndRealizationsForAthlete(athleteId)
+                successToast('Training plan deleted successfully.')
+            })
+            .catch(error => console.log(error))
+    }
 
     return (
         <div className = "CoachComponent">
+
+            <Toaster toastOptions={{duration: 2000}}/>
+
             <div className="container">
                 <div className="row">
                     <div className="col">
@@ -93,7 +110,7 @@ export default function CoachComponent() {
                 </div>
                 <div className="row">
                     <div className="col">
-                        {athleteView && <CoachAthleteWeek plans = {athletePlans} realizations = {athleteRealizations}/> }
+                        {athleteView && <CoachAthleteWeek removeTrainingPlan={removeTrainingPlan} plans = {athletePlans} realizations = {athleteRealizations}/> }
                         {!athleteView && <CoachTrainingPlanDetailsComponent activePlan = {activePlan}/> }
                     </div>
                 </div>
