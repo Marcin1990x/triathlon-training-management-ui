@@ -6,6 +6,7 @@ const TrainingPlansTable = ({ plans, setActivePlan}) => {
   }
   
     return (
+      <div>
         <table className="table table-striped">
           <thead>
             <tr>
@@ -27,6 +28,7 @@ const TrainingPlansTable = ({ plans, setActivePlan}) => {
             )}
           </tbody>
         </table>
+      </div>  
     )
 }
 export default TrainingPlansTable

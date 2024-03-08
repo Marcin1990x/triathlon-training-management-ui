@@ -5,7 +5,7 @@ const CoachAthleteWeek = ({plans, realizations}) => {
     return(
         <div>
             <h5>Athlete week:</h5>
-            {plans && <AthleteWeekdayList plans = {plans} realizations = {realizations}/> }
+            <AthleteWeekdayList plans = {plans} realizations = {realizations}/>
         </div>
     )
 }

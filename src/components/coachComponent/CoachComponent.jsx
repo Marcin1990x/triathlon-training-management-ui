@@ -15,6 +15,15 @@ export default function CoachComponent() {
     const [athletes, setAthletes] = useState([])
     const [plans, setPlans] = useState([])
 
+    const [athleteView, setAthleteView] = useState(true) 
+
+    const toggleView = () => {
+        setAthleteView(!athleteView)
+    }
+    const buttonText = () => {
+        return athleteView ? 'See trainings' : 'See athletes';
+    }
+
     useEffect( () => {
         getAthletes()
         getCoachTrainingPlans()
@@ -69,23 +78,23 @@ export default function CoachComponent() {
 
     return (
         <div className = "CoachComponent">
-            <h2>Coach page</h2>
             <div className="container">
                 <div className="row">
-                    <div className="col-sm-8">
-                        <CoachAthletesComponent athletes = {athletes} onClickAthlete = {setPlansAndRealizationsForAthlete}/>
-                        <CoachAthleteWeek plans = {athletePlans} realizations = {athleteRealizations}/>
-                    </div>
-                    <div className="col-sm-4">
-                        <CoachTrainingPlansComponent trainingPlans = {plans} setActivePlan={activatePlan}/>
+                    <div className="col">
+                        <h2>Coach page</h2> 
+                        <button className="btn btn-primary float-end m-2" onClick={toggleView}>{buttonText()}</button>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-sm-8">
-                        
+                    <div className="col">
+                        {athleteView && <CoachAthletesComponent athletes = {athletes} onClickAthlete = {setPlansAndRealizationsForAthlete}/>}
+                        {!athleteView && <CoachTrainingPlansComponent trainingPlans = {plans} setActivePlan={activatePlan}/> }
                     </div>
-                    <div className="col-sm-4">
-                        <CoachTrainingPlanDetailsComponent activePlan = {activePlan}/>
+                </div>
+                <div className="row">
+                    <div className="col">
+                        {athleteView && <CoachAthleteWeek plans = {athletePlans} realizations = {athleteRealizations}/> }
+                        {!athleteView && <CoachTrainingPlanDetailsComponent activePlan = {activePlan}/> }
                     </div>
                 </div>
             </div>
