@@ -1,8 +1,12 @@
 
-const TrainingPlansTable = ({ plans, setActivePlan}) => {
+const TrainingPlansTable = ({ plans, setActivePlan, addPlanMode, addPlanToAthlete}) => {
 
   const handlePreviewPlanBtn = (plan) => {
     setActivePlan(plan)
+  }
+
+  const handleAddPlanToAthleteBtn = (id) => {
+    addPlanToAthlete(id)
   }
   
     return (
@@ -10,6 +14,9 @@ const TrainingPlansTable = ({ plans, setActivePlan}) => {
         <table className="table table-striped">
           <thead>
             <tr>
+              {addPlanMode &&
+                <th>Choose plan to add</th>
+              }
               <th>Number</th>
               <th>Sport</th>
               <th>Name</th>
@@ -19,6 +26,11 @@ const TrainingPlansTable = ({ plans, setActivePlan}) => {
           <tbody>
             {plans.map((plan) => 
                   <tr key = {plan.id}>
+                    {addPlanMode &&
+                      <td>
+                        <button className = "btn btn-success" onClick = {() => handleAddPlanToAthleteBtn(plan.id)}>Add</button>
+                      </td>
+                    }
                     <td>{plan.id}</td>
                     <td>{plan.trainingType}</td>
                     <td>{plan.name}</td>

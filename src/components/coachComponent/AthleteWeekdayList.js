@@ -1,10 +1,16 @@
 import { useState } from 'react'
 import './styles.css'
+import { useListVisibility } from './AthleteWeekdayListVisibility';
 
-const  AthleteWeekdayList = ({plans, realizations, removeTrainingPlan}) =>  {
+const  AthleteWeekdayList = ({plans, realizations, removeTrainingPlan, addPlanModeAndSetDay}) =>  {
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  const [weekdaysVisible, setWeekdaysVisible] = useState(false)
+  const [weekdaysVisible, setWeekdaysVisible] = useState(true)
+  const {isListVisible, setListVisibility} = useListVisibility()
+
+  const handleCloseBtn = () => {
+    setListVisibility(false)
+  }
 
   function getWeekdays(date) {
     const weekdays = [];
@@ -18,6 +24,7 @@ const  AthleteWeekdayList = ({plans, realizations, removeTrainingPlan}) =>  {
   }
 
   function handlePrevWeek(){
+    console.log(isListVisible)
     const prevWeek = new Date(currentDate);
     prevWeek.setDate(prevWeek.getDate() - 7);
     setCurrentDate(prevWeek);
@@ -82,16 +89,22 @@ const  AthleteWeekdayList = ({plans, realizations, removeTrainingPlan}) =>  {
     setWeekdaysVisible(!weekdaysVisible)
   }
 
+
+  // add training plan to athlete
+
   const addTrainingPlanBtn = (day) => {
-    return <button className = "btn btn-outline-success btn-sm m-1">Add plan</button>
+    return <button className = "btn btn-outline-success btn-sm m-1" onClick = {() => addPlanModeAndSetDay(true, day)}>Add plan</button>
   }
+
+  // remove training plan from athlete
+
   const removeTrainingPlanBtn = (id) => {
     return <button className = "btn btn-outline-danger btn-sm m-1" onClick={() => removeTrainingPlan(id)}>Remove</button>
   }
 
   return (
     <div>
-      {weekdaysVisible &&
+      {
         <div className= "weekdaysList">
           <button className = "btn btn-outline-primary m-2" onClick={() => handlePrevWeek()}>Previous Week</button>
           <button className = "btn btn-outline-primary m-2" onClick={() => handleNextWeek()}>Next Week</button>
@@ -109,8 +122,9 @@ const  AthleteWeekdayList = ({plans, realizations, removeTrainingPlan}) =>  {
           </ul>
         </div>
       }
-    {weekdaysVisible && <button className="btn btn-outline-primary m-1 float-end" onClick = {togglePanelVisible}>Close panel</button> }
-    {!weekdaysVisible && <button className="btn btn-outline-primary m-1 float-end" onClick = {togglePanelVisible}>Open panel</button> }
+    {isListVisible && <button className="btn btn-outline-primary m-1 float-end" 
+      onClick = {handleCloseBtn}>Close panel</button> }
+    {/* {!weekdaysVisible && <button className="btn btn-outline-primary m-1 float-end" onClick = {togglePanelVisible}>Open panel</button> } */}
     </div>
   )
 }

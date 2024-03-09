@@ -1,4 +1,13 @@
+import { useListVisibility } from "./AthleteWeekdayListVisibility";
+
 const AthletesTable = ({ athletes, onClickAthlete }) => {
+
+    const {setListVisibility} = useListVisibility()
+
+    const handlePlusBtn = () => {
+      setListVisibility(true)
+    }
+
     return (
       <table className="table table-striped">
         <thead>
@@ -14,7 +23,8 @@ const AthletesTable = ({ athletes, onClickAthlete }) => {
               <td>{athlete.id}</td>
               <td>{athlete.firstName}</td>
               <td>{athlete.lastName}</td>
-              <td><button className="btn btn-outline-primary" onClick={() => onClickAthlete(athlete.id)}>+</button></td>
+              <td><button className="btn btn-outline-primary" onClick={() => 
+                {onClickAthlete(athlete.id); handlePlusBtn()}}>+</button></td>
             </tr>
           ))}
         </tbody>
