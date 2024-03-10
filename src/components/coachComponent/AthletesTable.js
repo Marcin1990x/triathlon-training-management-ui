@@ -1,12 +1,8 @@
-import { useListVisibility } from "./AthleteWeekdayListVisibility";
+import { useWeekdayListVisibility } from "./contexts/WeekdayListVisibilityContext"
 
 const AthletesTable = ({ athletes, onClickAthlete }) => {
 
-    const {setListVisibility} = useListVisibility()
-
-    const handlePlusBtn = () => {
-      setListVisibility(true)
-    }
+    const listVisibility = useWeekdayListVisibility()
 
     return (
       <table className="table table-striped">
@@ -23,8 +19,10 @@ const AthletesTable = ({ athletes, onClickAthlete }) => {
               <td>{athlete.id}</td>
               <td>{athlete.firstName}</td>
               <td>{athlete.lastName}</td>
-              <td><button className="btn btn-outline-primary" onClick={() => 
-                {onClickAthlete(athlete.id); handlePlusBtn()}}>+</button></td>
+              <td>
+                <button className="btn btn-outline-primary" onClick={() => 
+                  {onClickAthlete(athlete.id); listVisibility.setVisibility(true)}}>+</button>
+              </td>
             </tr>
           ))}
         </tbody>

@@ -1,16 +1,11 @@
 import { useState } from 'react'
 import './styles.css'
-import { useListVisibility } from './AthleteWeekdayListVisibility';
+import { useWeekdayListVisibility } from './contexts/WeekdayListVisibilityContext';
 
 const  AthleteWeekdayList = ({plans, realizations, removeTrainingPlan, addPlanModeAndSetDay}) =>  {
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  const [weekdaysVisible, setWeekdaysVisible] = useState(true)
-  const {isListVisible, setListVisibility} = useListVisibility()
-
-  const handleCloseBtn = () => {
-    setListVisibility(false)
-  }
+  const listVisibility = useWeekdayListVisibility()
 
   function getWeekdays(date) {
     const weekdays = [];
@@ -24,7 +19,6 @@ const  AthleteWeekdayList = ({plans, realizations, removeTrainingPlan, addPlanMo
   }
 
   function handlePrevWeek(){
-    console.log(isListVisible)
     const prevWeek = new Date(currentDate);
     prevWeek.setDate(prevWeek.getDate() - 7);
     setCurrentDate(prevWeek);
@@ -84,12 +78,6 @@ const  AthleteWeekdayList = ({plans, realizations, removeTrainingPlan, addPlanMo
 
     return formattedDate
   }
-
-  const togglePanelVisible = () => {
-    setWeekdaysVisible(!weekdaysVisible)
-  }
-
-
   // add training plan to athlete
 
   const addTrainingPlanBtn = (day) => {
@@ -104,7 +92,7 @@ const  AthleteWeekdayList = ({plans, realizations, removeTrainingPlan, addPlanMo
 
   return (
     <div>
-      {
+      {listVisibility.isListVisible &&
         <div className= "weekdaysList">
           <button className = "btn btn-outline-primary m-2" onClick={() => handlePrevWeek()}>Previous Week</button>
           <button className = "btn btn-outline-primary m-2" onClick={() => handleNextWeek()}>Next Week</button>
@@ -122,11 +110,9 @@ const  AthleteWeekdayList = ({plans, realizations, removeTrainingPlan, addPlanMo
           </ul>
         </div>
       }
-    {isListVisible && <button className="btn btn-outline-primary m-1 float-end" 
-      onClick = {handleCloseBtn}>Close panel</button> }
-    {/* {!weekdaysVisible && <button className="btn btn-outline-primary m-1 float-end" onClick = {togglePanelVisible}>Open panel</button> } */}
+    {listVisibility.isListVisible && <button className="btn btn-outline-primary m-1 float-end" 
+      onClick = {() => listVisibility.setVisibility(false)}>Close panel</button> }
     </div>
   )
 }
-
 export default AthleteWeekdayList
