@@ -1,12 +1,12 @@
 import AthletesTable from "./AthletesTable"
 
-const CoachAthletesComponent = ({athletes, onClickAthlete}) => {
+const CoachAthletesComponent = ({athletes}) => {
 
     return (
         <div>
             <h5>My athletes:</h5>
             <br/>
-            <AthletesTable athletes={athletes} onClickAthlete = {onClickAthlete}/>
+            <AthletesTable athletes={athletes}/>
         </div>
     )
 }

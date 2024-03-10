@@ -1,8 +1,10 @@
+import { useDataContext } from "./contexts/DataContext"
 import { useWeekdayListVisibility } from "./contexts/WeekdayListVisibilityContext"
 
-const AthletesTable = ({ athletes, onClickAthlete }) => {
+const AthletesTable = ({ athletes }) => {
 
     const listVisibility = useWeekdayListVisibility()
+    const dataContext = useDataContext()
 
     return (
       <table className="table table-striped">
@@ -21,7 +23,7 @@ const AthletesTable = ({ athletes, onClickAthlete }) => {
               <td>{athlete.lastName}</td>
               <td>
                 <button className="btn btn-outline-primary" onClick={() => 
-                  {onClickAthlete(athlete.id); listVisibility.setVisibility(true)}}>+</button>
+                  {dataContext.setPlansAndRealizationsForAthlete(athlete.id); listVisibility.setVisibility(true)}}>+</button>
               </td>
             </tr>
           ))}

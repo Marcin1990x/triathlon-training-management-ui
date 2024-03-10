@@ -1,12 +1,15 @@
+import { useDataContext } from "./contexts/DataContext"
 
-const TrainingPlansTable = ({ plans, setActivePlan, addPlanMode, addPlanToAthlete}) => {
+const TrainingPlansTable = ({ plans, setActivePlan}) => {
+
+  const dataContext = useDataContext()
 
   const handlePreviewPlanBtn = (plan) => {
     setActivePlan(plan)
   }
 
   const handleAddPlanToAthleteBtn = (id) => {
-    addPlanToAthlete(id)
+    dataContext.addTrainingPlanToAthleteWithDate(id)
   }
   
     return (
@@ -14,7 +17,7 @@ const TrainingPlansTable = ({ plans, setActivePlan, addPlanMode, addPlanToAthlet
         <table className="table table-striped">
           <thead>
             <tr>
-              {addPlanMode &&
+              {dataContext.addPlanMode &&
                 <th>Choose plan to add</th>
               }
               <th>Number</th>
@@ -26,7 +29,7 @@ const TrainingPlansTable = ({ plans, setActivePlan, addPlanMode, addPlanToAthlet
           <tbody>
             {plans.map((plan) => 
                   <tr key = {plan.id}>
-                    {addPlanMode &&
+                    {dataContext.addPlanMode &&
                       <td>
                         <button className = "btn btn-success" onClick = {() => handleAddPlanToAthleteBtn(plan.id)}>Add</button>
                       </td>
