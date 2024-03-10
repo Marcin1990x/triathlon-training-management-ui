@@ -1,8 +1,15 @@
+import { useState } from "react"
 import { useDataContext } from "./contexts/DataContext"
 
 const TrainingPlansTable = ({ plans, setActivePlan}) => {
 
   const dataContext = useDataContext()
+
+  const [highlightedRow, setHighlightedRow] = useState(null)
+
+    const handleRowClick = (index) => {
+      setHighlightedRow(index)
+    }
 
   const handlePreviewPlanBtn = (plan) => {
     setActivePlan(plan)
@@ -14,7 +21,7 @@ const TrainingPlansTable = ({ plans, setActivePlan}) => {
   
     return (
       <div>
-        <table className="table table-striped">
+        <table className="table">
           <thead>
             <tr>
               {dataContext.addPlanMode &&
@@ -27,8 +34,8 @@ const TrainingPlansTable = ({ plans, setActivePlan}) => {
             </tr>
           </thead>
           <tbody>
-            {plans.map((plan) => 
-                  <tr key = {plan.id}>
+            {plans.map((plan, index) => 
+                  <tr key = {plan.id} className = {highlightedRow == index ? "table-warning" : ""}>
                     {dataContext.addPlanMode &&
                       <td>
                         <button className = "btn btn-success" onClick = {() => handleAddPlanToAthleteBtn(plan.id)}>Add</button>
@@ -38,7 +45,8 @@ const TrainingPlansTable = ({ plans, setActivePlan}) => {
                     <td>{plan.trainingType}</td>
                     <td>{plan.name}</td>
                     <td>{plan.description}</td>
-                    <td><button className="btn btn-outline-primary" onClick = {() => handlePreviewPlanBtn(plan)}>+</button></td>
+                    <td><button className="btn btn-outline-primary" onClick = {() => { handlePreviewPlanBtn(plan);
+                      handleRowClick(index)}}>+</button></td>
                   </tr>
             )}
           </tbody>
