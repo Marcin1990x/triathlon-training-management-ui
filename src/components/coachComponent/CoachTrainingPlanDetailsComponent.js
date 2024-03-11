@@ -1,9 +1,13 @@
-const CoachTrainingPlanDetailsComponent = ({activePlan}) => {
+import { useDataContextTrainings } from "./contexts/DataContextTrainings"
 
-    const plan = activePlan
+const CoachTrainingPlanDetailsComponent = () => {
+
+    const dataContextTrainings = useDataContextTrainings()
+
+    const plan = dataContextTrainings.activePlan
 
     const Stages = () => {
-        if(activePlan.stage.length > 0) {
+        if(plan.stage.length > 0) {
             return (
                 <div className="table-responsive" style={{ maxHeight: '270px', overflowY: 'auto' }}>
                     Stages
@@ -17,7 +21,7 @@ const CoachTrainingPlanDetailsComponent = ({activePlan}) => {
                         </tr>
                         </thead>
                         <tbody>
-                            {activePlan.stage.map((stage) => 
+                            {plan.stage.map((stage) => 
                                 <tr key = {stage.sequence}>
                                 <td>{stage.sequence}</td>
                                 <td>{stage.timeInSeconds}</td>
@@ -36,13 +40,14 @@ const CoachTrainingPlanDetailsComponent = ({activePlan}) => {
         <div>
             <h5>Training plan:</h5>
             <br/>
-            {activePlan && 
+            {plan && 
             <ul className="list-group list-group-flush">
                 <li className="list-group-item">Number: {plan.id}</li>
                 <li className="list-group-item">Name: {plan.name}</li>
                 <li className="list-group-item">Description: {plan.description}</li>
+                <li className="list-group-item"><button className="btn btn-outline-danger m-1">Delete training plan</button></li>
             </ul> }
-            {activePlan && <Stages/>}            
+            {plan && <Stages/>}            
         </div>
     )
 }

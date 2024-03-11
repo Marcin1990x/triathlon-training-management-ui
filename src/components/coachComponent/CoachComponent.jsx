@@ -5,25 +5,25 @@ import CoachTrainingPlanDetailsComponent from "./CoachTrainingPlanDetailsCompone
 import CoachAthleteWeek from "./CoachAthleteWeek"
 import { getAthletesByCoachIdApi } from "../api/AthletesApiService"
 import { useAuth } from "../security/AuthContext"
-import { getTrainingPlansByCoachIdApi } from "../api/TrainingPlanApiService"
 import { Toaster } from "react-hot-toast"
-import { useDataContext } from "./contexts/DataContext"
+import { useDataContextAthletes } from "./contexts/DataContextAthletes"
+import { useDataContextTrainings } from "./contexts/DataContextTrainings"
 
 export default function CoachComponent() {
 
     const authContext = useAuth()
-    const dataContext = useDataContext()
+    const dataContextAthletes = useDataContextAthletes()
+    const dataContextTrainings = useDataContextTrainings()
 
     const [athletes, setAthletes] = useState([])
-    const [plans, setPlans] = useState([])
 
     const buttonText = () => {
-        return dataContext.athleteView ? 'See trainings' : 'See athletes';
+        return dataContextAthletes.athleteView ? 'See trainings' : 'See athletes';
     }
 
     useEffect( () => {
         getAthletes()
-        getCoachTrainingPlans()
+        dataContextTrainings.getCoachTrainingPlans()
     }, [])
 
     function getAthletes() {
@@ -34,20 +34,6 @@ export default function CoachComponent() {
             })
             .catch(error => console.log(error))
     }
-    function getCoachTrainingPlans() {
-        getTrainingPlansByCoachIdApi(authContext.coachId)
-            .then(response => {
-                console.log(response)
-                setPlans(response.data)
-            })
-            .catch(error => console.log(error))
-    }
-
-    const [activePlan, setActivePlan] = useState(null)
-    function activatePlan(plan) {
-        setActivePlan(plan)
-    }
-
     return (
         <div className = "CoachComponent">
 
@@ -57,26 +43,26 @@ export default function CoachComponent() {
                 <div className="row">
                     <div className="col">
                         <h2>Coach page</h2> 
-                        {!dataContext.addPlanMode && 
-                            <button className = "btn btn-primary float-end m-2" onClick = {dataContext.toggleView}>{buttonText()}</button> 
+                        {!dataContextAthletes.addPlanMode && 
+                            <button className = "btn btn-primary float-end m-2" onClick = {dataContextAthletes.toggleView}>{buttonText()}</button> 
                         }
-                        {dataContext.addPlanMode &&
+                        {dataContextAthletes.addPlanMode &&
                             <button className = "btn btn-warning m-2" 
-                                onClick = {() => dataContext.handleAddPlanMode(false)}>Cancel adding plan
+                                onClick = {() => dataContextAthletes.handleAddPlanMode(false)}>Cancel adding plan
                             </button>
                         }
                     </div>
                 </div>
                 <div className="row">
                     <div className="col">
-                        {dataContext.athleteView && <CoachAthletesComponent athletes = {athletes}/>}
-                        {!dataContext.athleteView && <CoachTrainingPlansComponent trainingPlans = {plans} setActivePlan={activatePlan}/> }
+                        {dataContextAthletes.athleteView && <CoachAthletesComponent athletes = {athletes}/>}
+                        {!dataContextAthletes.athleteView && <CoachTrainingPlansComponent/> }
                     </div>
                 </div>
                 <div className="row">
                     <div className="col">
-                        {dataContext.athleteView && <CoachAthleteWeek/>}
-                        {!dataContext.athleteView && <CoachTrainingPlanDetailsComponent activePlan = {activePlan}/> }
+                        {dataContextAthletes.athleteView && <CoachAthleteWeek/>}
+                        {!dataContextAthletes.athleteView && <CoachTrainingPlanDetailsComponent/> }
                     </div>
                 </div>
             </div>

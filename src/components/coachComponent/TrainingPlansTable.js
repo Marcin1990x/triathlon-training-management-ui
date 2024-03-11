@@ -1,9 +1,13 @@
 import { useState } from "react"
-import { useDataContext } from "./contexts/DataContext"
+import { useDataContextAthletes } from "./contexts/DataContextAthletes"
+import NewTrainingPlanComponent from "./NewTrainingPlanComponent"
+import { useDataContextTrainings } from "./contexts/DataContextTrainings"
 
-const TrainingPlansTable = ({ plans, setActivePlan}) => {
+const TrainingPlansTable = () => {
 
-  const dataContext = useDataContext()
+  const dataContextAthletes = useDataContextAthletes()
+  const dataContextTrainings = useDataContextTrainings()
+  const [newTrainingPlanMode, setNewTrainingPlanMode] = useState(false)
 
   const [highlightedRow, setHighlightedRow] = useState(null)
 
@@ -12,11 +16,15 @@ const TrainingPlansTable = ({ plans, setActivePlan}) => {
     }
 
   const handlePreviewPlanBtn = (plan) => {
-    setActivePlan(plan)
+    dataContextTrainings.activatePlan(plan)
   }
 
   const handleAddPlanToAthleteBtn = (id) => {
-    dataContext.addTrainingPlanToAthleteWithDate(id)
+    dataContextAthletes.addTrainingPlanToAthleteWithDate(id)
+  }
+
+  const handleAddNewTrainingBtn = () => {
+    setNewTrainingPlanMode(!newTrainingPlanMode)
   }
   
     return (
@@ -24,7 +32,7 @@ const TrainingPlansTable = ({ plans, setActivePlan}) => {
         <table className="table">
           <thead>
             <tr>
-              {dataContext.addPlanMode &&
+              {dataContextAthletes.addPlanMode &&
                 <th>Choose plan to add</th>
               }
               <th>Number</th>
@@ -34,9 +42,9 @@ const TrainingPlansTable = ({ plans, setActivePlan}) => {
             </tr>
           </thead>
           <tbody>
-            {plans.map((plan, index) => 
+            {dataContextTrainings.trainingPlans.map((plan, index) => 
                   <tr key = {plan.id} className = {highlightedRow == index ? "table-warning" : ""}>
-                    {dataContext.addPlanMode &&
+                    {dataContextAthletes.addPlanMode &&
                       <td>
                         <button className = "btn btn-success" onClick = {() => handleAddPlanToAthleteBtn(plan.id)}>Add</button>
                       </td>
@@ -51,6 +59,8 @@ const TrainingPlansTable = ({ plans, setActivePlan}) => {
             )}
           </tbody>
         </table>
+          <button className = "btn btn-outline-success m-2 float-end" onClick = {() => handleAddNewTrainingBtn()}>Add new training plan</button>
+            {newTrainingPlanMode && <NewTrainingPlanComponent/> }
       </div>  
     )
 }

@@ -3,10 +3,10 @@ import { getTrainingPlansByAthleteIdApi, removeTrainingPlanFromAthleteApi, addTr
 import { getTrainingRealizationsByAthleteIdApi } from "../../api/TrainingRealizationApiService";
 import { toast } from "react-hot-toast";
 
-const DataContext = createContext()
-export const useDataContext = () => useContext(DataContext)
+const DataContextAthletes = createContext()
+export const useDataContextAthletes = () => useContext(DataContextAthletes)
 
-const DataContextProvider = ({children}) => {
+const DataContextAthletesProvider = ({children}) => {
     
     const [athletePlans, setAthletePlans] = useState([])
     const [athleteRealizations, setAthleteRealizations] = useState([])
@@ -79,11 +79,11 @@ const DataContextProvider = ({children}) => {
 
 
     return (
-        <DataContext.Provider value = {{athletePlans, athleteRealizations, athleteId, 
+        <DataContextAthletes.Provider value = {{athletePlans, athleteRealizations, athleteId, 
             setPlansAndRealizationsForAthlete, removeTrainingPlan, addPlanMode, setAddPlanMode, setNewPlanDate,
                 addTrainingPlanToAthleteWithDate, handleAddPlanMode, toggleView, athleteView}}>
             {children}
-        </DataContext.Provider>
+        </DataContextAthletes.Provider>
     )
 }
-export default DataContextProvider
+export default DataContextAthletesProvider

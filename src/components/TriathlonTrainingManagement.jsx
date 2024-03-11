@@ -4,7 +4,8 @@ import AthleteComponent from "./athleteComponent/AthleteComponent";
 import CoachComponent from "./coachComponent/CoachComponent";
 import AuthProvider from "./security/AuthContext";
 import WeekdayListVisibilityProvider from "./coachComponent/contexts/WeekdayListVisibilityContext";
-import DataContextProvider from "./coachComponent/contexts/DataContext";
+import DataContextAthletesProvider from "./coachComponent/contexts/DataContextAthletes";
+import DataContextTrainingsProvider from "./coachComponent/contexts/DataContextTrainings";
 
 export default function TriathlonTrainingManagement() {
     return(
@@ -17,11 +18,13 @@ export default function TriathlonTrainingManagement() {
                             <Route path = '/athlete' element = { <AthleteComponent /> } />
                             <Route path = '/coach' element = 
                                 { 
-                                <DataContextProvider>
-                                    <WeekdayListVisibilityProvider>
-                                        <CoachComponent />
-                                    </WeekdayListVisibilityProvider> 
-                                </DataContextProvider>
+                                <DataContextAthletesProvider>
+                                    <DataContextTrainingsProvider>
+                                        <WeekdayListVisibilityProvider>
+                                            <CoachComponent />
+                                        </WeekdayListVisibilityProvider> 
+                                    </DataContextTrainingsProvider>
+                                </DataContextAthletesProvider>
                                 } />
                         </Routes>
                     </WeekdayListVisibilityProvider>

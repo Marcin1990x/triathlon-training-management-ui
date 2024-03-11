@@ -1,11 +1,11 @@
 import { useState } from "react"
-import { useDataContext } from "./contexts/DataContext"
+import { useDataContextAthletes } from "./contexts/DataContextAthletes"
 import { useWeekdayListVisibility } from "./contexts/WeekdayListVisibilityContext"
 
 const AthletesTable = ({ athletes }) => {
 
     const listVisibility = useWeekdayListVisibility()
-    const dataContext = useDataContext()
+    const DataContextAthletes = useDataContextAthletes()
 
     const [highlightedRow, setHighlightedRow] = useState(null)
 
@@ -28,7 +28,7 @@ const AthletesTable = ({ athletes }) => {
               <td>{athlete.lastName}</td>
               <td>
                 <button className="btn btn-outline-primary" onClick={() => 
-                  {dataContext.setPlansAndRealizationsForAthlete(athlete.id); listVisibility.setVisibility(true)
+                  {DataContextAthletes.setPlansAndRealizationsForAthlete(athlete.id); listVisibility.setVisibility(true)
                     handleRowClick(index)}}>+</button>
               </td>
             </tr>

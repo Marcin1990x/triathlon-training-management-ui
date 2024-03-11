@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import './styles.css'
 import { useWeekdayListVisibility } from './contexts/WeekdayListVisibilityContext';
-import { useDataContext } from './contexts/DataContext';
+import { useDataContextAthletes } from './contexts/DataContextAthletes';
 
 const  AthleteWeekdayList = () =>  {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const listVisibility = useWeekdayListVisibility()
-  const dataContext = useDataContext()
+  const DataContextAthletes = useDataContextAthletes()
 
   function getWeekdays(date) {
     const weekdays = [];
@@ -34,7 +34,7 @@ const  AthleteWeekdayList = () =>  {
   }
 
   function handleTrainingPlanField(date){
-    const filtered = dataContext.athletePlans.filter((plan => plan.plannedDate === formatDate(date)))
+    const filtered = DataContextAthletes.athletePlans.filter((plan => plan.plannedDate === formatDate(date)))
     if(filtered.length > 0) {
       return (
         <div className = "row">
@@ -55,7 +55,7 @@ const  AthleteWeekdayList = () =>  {
   }
 
   function handleTrainingRealizationField(date){
-    const filtered = dataContext.athleteRealizations.filter((realization => realization.realizationDate === formatDate(date)))
+    const filtered = DataContextAthletes.athleteRealizations.filter((realization => realization.realizationDate === formatDate(date)))
     if(filtered.length > 0) {
         return(
           <div className = "row">
@@ -84,14 +84,14 @@ const  AthleteWeekdayList = () =>  {
 
   const addTrainingPlanBtn = (day) => {
     return  <button className = "btn btn-outline-success btn-sm m-1" onClick = {() => {
-                dataContext.handleAddPlanMode(true, day)}}>Add plan
+                DataContextAthletes.handleAddPlanMode(true, day)}}>Add plan
             </button>
   }
 
   // remove training plan from athlete
 
   const removeTrainingPlanBtn = (id) => {
-    return <button className = "btn btn-outline-danger btn-sm m-1" onClick={() => dataContext.removeTrainingPlan(id)}>Remove</button>
+    return <button className = "btn btn-outline-danger btn-sm m-1" onClick={() => DataContextAthletes.removeTrainingPlan(id)}>Remove</button>
   }
 
   return (

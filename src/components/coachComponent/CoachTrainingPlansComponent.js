@@ -1,14 +1,13 @@
 import TrainingPlansTable from "./TrainingPlansTable"
 
-const CoachTrainingPlansComponent = ({trainingPlans, setActivePlan}) => {
+const CoachTrainingPlansComponent = ({setActivePlan}) => {
 
     return (
         <div>
             <h5>My training plans:</h5>
             <br/>
-            <TrainingPlansTable plans = {trainingPlans} setActivePlan = {setActivePlan}/>
+            <TrainingPlansTable/>
         </div>
     )
 }
-
 export default CoachTrainingPlansComponent
