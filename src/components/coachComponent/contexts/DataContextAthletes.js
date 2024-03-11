@@ -1,19 +1,32 @@
 import { createContext, useContext, useState } from "react";
 import { getTrainingPlansByAthleteIdApi, removeTrainingPlanFromAthleteApi, addTrainingPlanToAthleteWithDateApi } from "../../api/TrainingPlanApiService";
 import { getTrainingRealizationsByAthleteIdApi } from "../../api/TrainingRealizationApiService";
+import { getAthletesByCoachIdApi } from "../../api/AthletesApiService";
 import { toast } from "react-hot-toast";
+import { useAuth } from "../../security/AuthContext";
 
 const DataContextAthletes = createContext()
 export const useDataContextAthletes = () => useContext(DataContextAthletes)
 
 const DataContextAthletesProvider = ({children}) => {
     
+    const [athletes, setAthletes] = useState([])
     const [athletePlans, setAthletePlans] = useState([])
     const [athleteRealizations, setAthleteRealizations] = useState([])
     const [athleteId, setAthleteId] = useState(null)
 
     const successToast = (message) => toast.success(message)
 
+    const authContext = useAuth()
+
+    const getAthletes = () => {
+        getAthletesByCoachIdApi(authContext.coachId)
+            .then(response => {
+                console.log(response)
+                setAthletes(response.data)
+            })
+            .catch(error => console.log(error))
+    }
     const getTrainingPlans= (id) => {
         getTrainingPlansByAthleteIdApi(id)
             .then(response => {
@@ -79,7 +92,7 @@ const DataContextAthletesProvider = ({children}) => {
 
 
     return (
-        <DataContextAthletes.Provider value = {{athletePlans, athleteRealizations, athleteId, 
+        <DataContextAthletes.Provider value = {{getAthletes, athletes, athletePlans, athleteRealizations, athleteId, 
             setPlansAndRealizationsForAthlete, removeTrainingPlan, addPlanMode, setAddPlanMode, setNewPlanDate,
                 addTrainingPlanToAthleteWithDate, handleAddPlanMode, toggleView, athleteView}}>
             {children}

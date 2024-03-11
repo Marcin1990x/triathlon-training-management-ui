@@ -8,10 +8,14 @@ export const useDataContextTrainings = () => useContext(DataContextTrainings)
 
 const DataContextTrainingsProvider = ({children}) => {
     
-    const successToast = (message) => toast.success(message)
+    // const successToast = (message) => toast.success(message)
+
     const authContext = useAuth()
     
     const [trainingPlans, setTrainingPlans] = useState([])
+    
+    const [newTrainingView, setNewTrainingView] = useState(false)
+
     const [activePlan, setActivePlan] = useState(null)
 
     const getCoachTrainingPlans= () => {
@@ -27,7 +31,8 @@ const DataContextTrainingsProvider = ({children}) => {
     }
 
     return (
-        <DataContextTrainings.Provider value = {{getCoachTrainingPlans, trainingPlans, activatePlan, activePlan}}>
+        <DataContextTrainings.Provider value = {{getCoachTrainingPlans, trainingPlans, activatePlan, activePlan, 
+            newTrainingView, setNewTrainingView}}>
             {children}
         </DataContextTrainings.Provider>
     )

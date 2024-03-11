@@ -6,7 +6,7 @@ const CoachAthletesComponent = ({athletes}) => {
         <div>
             <h5>My athletes:</h5>
             <br/>
-            <AthletesTable athletes={athletes}/>
+            <AthletesTable/>
         </div>
     )
 }

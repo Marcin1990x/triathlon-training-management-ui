@@ -24,7 +24,7 @@ const TrainingPlansTable = () => {
   }
 
   const handleAddNewTrainingBtn = () => {
-    setNewTrainingPlanMode(!newTrainingPlanMode)
+    dataContextTrainings.setNewTrainingView(true)
   }
   
     return (
@@ -60,7 +60,6 @@ const TrainingPlansTable = () => {
           </tbody>
         </table>
           <button className = "btn btn-outline-success m-2 float-end" onClick = {() => handleAddNewTrainingBtn()}>Add new training plan</button>
-            {newTrainingPlanMode && <NewTrainingPlanComponent/> }
       </div>  
     )
 }
