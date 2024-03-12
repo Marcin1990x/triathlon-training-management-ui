@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from "react";
-import { toast } from "react-hot-toast";
 import { getTrainingPlansByCoachIdApi } from "../../api/TrainingPlanApiService";
 import { useAuth } from "../../security/AuthContext";
 
@@ -7,8 +6,6 @@ const DataContextTrainings = createContext()
 export const useDataContextTrainings = () => useContext(DataContextTrainings)
 
 const DataContextTrainingsProvider = ({children}) => {
-    
-    // const successToast = (message) => toast.success(message)
 
     const authContext = useAuth()
     
@@ -29,10 +26,13 @@ const DataContextTrainingsProvider = ({children}) => {
     function activatePlan(plan) {
         setActivePlan(plan)
     }
+    const switchView = () => {
+        setNewTrainingView(!newTrainingView)
+    }
 
     return (
         <DataContextTrainings.Provider value = {{getCoachTrainingPlans, trainingPlans, activatePlan, activePlan, 
-            newTrainingView, setNewTrainingView}}>
+            newTrainingView, setNewTrainingView, switchView}}>
             {children}
         </DataContextTrainings.Provider>
     )

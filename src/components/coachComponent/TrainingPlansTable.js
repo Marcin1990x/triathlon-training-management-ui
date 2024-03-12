@@ -1,13 +1,11 @@
 import { useState } from "react"
 import { useDataContextAthletes } from "./contexts/DataContextAthletes"
-import NewTrainingPlanComponent from "./NewTrainingPlanComponent"
 import { useDataContextTrainings } from "./contexts/DataContextTrainings"
 
 const TrainingPlansTable = () => {
 
   const dataContextAthletes = useDataContextAthletes()
   const dataContextTrainings = useDataContextTrainings()
-  const [newTrainingPlanMode, setNewTrainingPlanMode] = useState(false)
 
   const [highlightedRow, setHighlightedRow] = useState(null)
 

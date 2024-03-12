@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react"
 import CoachAthletesComponent from "./CoachAthletesComponent"
 import CoachTrainingPlansComponent from "./CoachTrainingPlansComponent"
-import CoachTrainingPlanDetailsComponent from "./CoachTrainingPlanDetailsComponent"
-import CoachAthleteWeek from "./CoachAthleteWeek"
-import NewTrainingPlanComponent from "./NewTrainingPlanComponent"
 import { Toaster } from "react-hot-toast"
 import { useDataContextAthletes } from "./contexts/DataContextAthletes"
 import { useDataContextTrainings } from "./contexts/DataContextTrainings"
@@ -45,18 +42,9 @@ export default function CoachComponent() {
                         }
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col">
-                        {dataContextAthletes.athleteView && <CoachAthletesComponent/>}
-                        {!dataContextAthletes.athleteView && !dataContextTrainings.newTrainingView && <CoachTrainingPlansComponent/> }
-                        {dataContextTrainings.newTrainingView && <NewTrainingPlanComponent/> }
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col">
-                        {dataContextAthletes.athleteView && <CoachAthleteWeek/>}
-                        {!dataContextAthletes.athleteView && !dataContextTrainings.newTrainingView && <CoachTrainingPlanDetailsComponent/> }
-                    </div>
+                <div>
+                    {dataContextAthletes.athleteView && <CoachAthletesComponent/>}
+                    {!dataContextAthletes.athleteView && <CoachTrainingPlansComponent/>}
                 </div>
             </div>
         </div>
