@@ -9,7 +9,6 @@ const CoachTrainingPlansComponent = () => {
 
     return (
         <div>
-            <h5>My training plans:</h5>
             <br/>
             <div className="container">
                 <div className="row">

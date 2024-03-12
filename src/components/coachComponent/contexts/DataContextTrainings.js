@@ -12,6 +12,7 @@ const DataContextTrainingsProvider = ({children}) => {
     const [trainingPlans, setTrainingPlans] = useState([])
     
     const [newTrainingView, setNewTrainingView] = useState(false)
+    const [stagesView, setStagesView] = useState(false)
 
     const [activePlan, setActivePlan] = useState(null)
 
@@ -29,10 +30,13 @@ const DataContextTrainingsProvider = ({children}) => {
     const switchView = () => {
         setNewTrainingView(!newTrainingView)
     }
+    const switchStageView = () => {
+        setStagesView(!stagesView)
+    }
 
     return (
         <DataContextTrainings.Provider value = {{getCoachTrainingPlans, trainingPlans, activatePlan, activePlan, 
-            newTrainingView, setNewTrainingView, switchView}}>
+            newTrainingView, setNewTrainingView, switchView, switchStageView, stagesView}}>
             {children}
         </DataContextTrainings.Provider>
     )

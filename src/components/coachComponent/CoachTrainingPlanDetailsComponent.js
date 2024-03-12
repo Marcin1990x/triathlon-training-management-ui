@@ -19,7 +19,6 @@ const CoachTrainingPlanDetailsComponent = () => {
                 successToast('Training plan deleted.')
             })
     }
-
     const Stages = () => {
         if(plan.stage.length > 0) {
             return (
