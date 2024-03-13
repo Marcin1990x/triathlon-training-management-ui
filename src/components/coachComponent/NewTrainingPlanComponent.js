@@ -3,6 +3,7 @@ import { useDataContextTrainings } from "./contexts/DataContextTrainings"
 import { addNewTrainingPlanToCoachApi } from "../api/TrainingPlanApiService"
 import { useAuth } from "../security/AuthContext"
 import { toast } from "react-hot-toast"
+import BikeStageForm from "./BikeStageForm"
 
 const NewTrainingPlanComponent = () => {
 
@@ -12,6 +13,18 @@ const NewTrainingPlanComponent = () => {
     const [sport, setSport] = useState('')
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
+    const [showStageQuestion, setShowStageQuestion] = useState(false)
+    const [stageView, setStageView] = useState(false)
+
+    const [bikeStage, setBikeStage] = useState(false)
+    const [addedPlan, setAddedPlan] = useState(null)
+
+    const switchShowStageQuestion = () => {
+        setShowStageQuestion(!showStageQuestion)
+    }
+    const switchStageView = () => {
+        setStageView(!stageView)
+    }
 
     const dataContextTrainings = useDataContextTrainings()
     const authContext = useAuth()
@@ -31,7 +44,7 @@ const NewTrainingPlanComponent = () => {
     const handleAddButton = () => {
 
         if(name != '' && sport != '' && !sport.includes('O') && description != '') {
-            dataContextTrainings.switchStageView()
+            switchShowStageQuestion()
         } else {
             errorToast('Please fill out all fields.')
         }
@@ -48,22 +61,42 @@ const NewTrainingPlanComponent = () => {
             .then(response => {
                 console.log(response)
                 dataContextTrainings.switchView()
-                dataContextTrainings.switchStageView()
+                switchShowStageQuestion()
                 dataContextTrainings.getCoachTrainingPlans()
                 successToast(`New training plan added successfully.`)
             })
             .catch(error => console.log(error))
-    }       
+    }   
+    const handleStageYesButton = () => {
+
+        const newTraining = {
+            name : name,
+            trainingType : sport,
+            description : description
+        }
+        addNewTrainingPlanToCoachApi(authContext.coachId, newTraining)
+            .then(response => {
+                console.log(response)
+                setAddedPlan(response.data)
+                // successToast(`New training plan added successfully.`)
+            })
+            .catch(error => console.log(error))
+        
+        if(sport == 'BIKE'){
+            setBikeStage(true)
+        }
+        switchStageView()
+    }    
 
     return (
         <div>
-            {!dataContextTrainings.stagesView && 
+            {!showStageQuestion && !stageView &&
             <div className="container">
                 <div className="row">
                     <div className="col"></div>
                     <div className="col">
                         <label className = "form-label">Choose sport type:</label>
-                        <select className="form-select m-2" aria-label="Default select example" value = {sport} onChange={handleSelectSportChange}>
+                        <select className="form-select m-2" value = {sport} onChange={handleSelectSportChange}>
                             <option selected>Open this select menu</option>
                             <option value="SWIM">Swim</option>
                             <option value="BIKE">Bike</option>
@@ -101,12 +134,15 @@ const NewTrainingPlanComponent = () => {
                 </div>
             </div>
             }
-            {dataContextTrainings.stagesView && 
+            {showStageQuestion && !stageView &&
             <div className="stages">
                 <h4>Do you want to add stages?</h4>
-                <button className="btn btn-outline-success m-2">Yes</button>
+                <button className="btn btn-outline-success m-2" onClick={() => handleStageYesButton()}>Yes</button>
                 <button className="btn btn-outline-danger m-2" onClick={() => handleStageNoBtn()}>No</button>
             </div>
+            }
+            {stageView && bikeStage && 
+                <BikeStageForm trainingPlan={addedPlan}/>
             }
         </div>
     )
