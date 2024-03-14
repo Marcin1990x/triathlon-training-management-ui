@@ -18,3 +18,5 @@ export const addTrainingPlanToAthleteWithDateApi = (athleteId, planId, plannedDa
 export const addNewTrainingPlanToCoachApi = (coachId, trainingPlan) => apiClient.post(`coaches/${coachId}/training-plans`, trainingPlan)
 
 export const removeTrainingPlanApi = (id) => apiClient.delete(`training-plans/${id}`)
+
+export const getTrainingPlanByIdApi = (id) => apiClient.get(`training-plans/${id}`)

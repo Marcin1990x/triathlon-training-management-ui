@@ -32,7 +32,7 @@ export default function CoachComponent() {
                 <div className="row">
                     <div className="col">
                         <h2>Coach page</h2> 
-                        {!dataContextAthletes.addPlanMode && 
+                        {!dataContextAthletes.addPlanMode && !dataContextTrainings.newTrainingView &&
                             <button className = "btn btn-primary float-end m-2" onClick = {handleSwitchViewBtn}>{buttonText()}</button> 
                         }
                         {dataContextAthletes.addPlanMode &&

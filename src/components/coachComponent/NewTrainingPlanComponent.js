@@ -3,7 +3,7 @@ import { useDataContextTrainings } from "./contexts/DataContextTrainings"
 import { addNewTrainingPlanToCoachApi } from "../api/TrainingPlanApiService"
 import { useAuth } from "../security/AuthContext"
 import { toast } from "react-hot-toast"
-import BikeStageForm from "./BikeStageForm"
+import NewStageComponent from "./NewStageComponent"
 
 const NewTrainingPlanComponent = () => {
 
@@ -16,8 +16,8 @@ const NewTrainingPlanComponent = () => {
     const [showStageQuestion, setShowStageQuestion] = useState(false)
     const [stageView, setStageView] = useState(false)
 
-    const [bikeStage, setBikeStage] = useState(false)
-    const [addedPlan, setAddedPlan] = useState(null)
+    const [stageType, setStageType] = useState('')
+    const [addedPlanId, setAddedPlanId] = useState(null)
 
     const switchShowStageQuestion = () => {
         setShowStageQuestion(!showStageQuestion)
@@ -77,16 +77,13 @@ const NewTrainingPlanComponent = () => {
         addNewTrainingPlanToCoachApi(authContext.coachId, newTraining)
             .then(response => {
                 console.log(response)
-                setAddedPlan(response.data)
-                // successToast(`New training plan added successfully.`)
+                setAddedPlanId(response.data.id)
             })
             .catch(error => console.log(error))
         
-        if(sport == 'BIKE'){
-            setBikeStage(true)
-        }
+        setStageType(sport)
         switchStageView()
-    }    
+    }   
 
     return (
         <div>
@@ -141,8 +138,8 @@ const NewTrainingPlanComponent = () => {
                 <button className="btn btn-outline-danger m-2" onClick={() => handleStageNoBtn()}>No</button>
             </div>
             }
-            {stageView && bikeStage && 
-                <BikeStageForm trainingPlan={addedPlan}/>
+            {stageView &&
+                <NewStageComponent planId={addedPlanId} stageType={stageType}/>
             }
         </div>
     )

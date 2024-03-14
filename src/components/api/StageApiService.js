@@ -1,3 +1,4 @@
 import { apiClient } from "./ApiClient"
 
-export const addNewSwimStageToTrainingPlanApi = (planId, swimStage) => apiClient.post(`training-plans/${planId}/stages=swim`, swimStage)
+export const addNewSwimStageToTrainingPlanApi = (planId, stage, stageType) => 
+    apiClient.post(`training-plans/${planId}/stages=${stageType}`, stage)
