@@ -23,8 +23,7 @@ const CoachTrainingPlanDetailsComponent = () => {
         if(plan.stage.length > 0) {
             return (
                 <div className="table-responsive" style={{ maxHeight: '270px', overflowY: 'auto' }}>
-                    Stages
-                    <table className="table table-striped" >
+                    <table className="table" >
                         <thead>
                         <tr>
                             <th>Sequence</th>
@@ -51,18 +50,16 @@ const CoachTrainingPlanDetailsComponent = () => {
 
     return (
         <div>
-            <h5>Training plan:</h5>
-            <br/>
             {plan && 
             <ul className="list-group list-group-flush">
-                <li className="list-group-item">Number: {plan.id}</li>
                 <li className="list-group-item">Name: {plan.name}</li>
                 <li className="list-group-item">Description: {plan.description}</li>
                 <li className="list-group-item">
                     <button className="btn btn-outline-danger m-1" onClick={() => handleDeleteBtn(plan.id)}>Delete training plan</button>
                 </li>
             </ul> }
-            {plan && <Stages/>}            
+            {plan && <Stages/>}   
+            <br></br>         
         </div>
     )
 }

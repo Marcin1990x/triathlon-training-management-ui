@@ -37,20 +37,22 @@ const TrainingPlansTable = () => {
               <th>Sport</th>
               <th>Name</th>
               <th>Description</th>
+              <th>Stages</th>
             </tr>
           </thead>
           <tbody>
             {dataContextTrainings.trainingPlans.map((plan, index) => 
-                  <tr key = {plan.id} className = {highlightedRow == index ? "table-warning" : ""}>
+                  <tr key = {plan.index} className = {highlightedRow == index ? "table-warning" : ""}>
                     {dataContextAthletes.addPlanMode &&
                       <td>
                         <button className = "btn btn-success" onClick = {() => handleAddPlanToAthleteBtn(plan.id)}>Add</button>
                       </td>
                     }
-                    <td>{plan.id}</td>
+                    <td>{index + 1}</td>
                     <td>{plan.trainingType}</td>
                     <td>{plan.name}</td>
                     <td>{plan.description}</td>
+                    <td>{plan.stage.length}</td>
                     <td><button className="btn btn-outline-primary" onClick = {() => { handlePreviewPlanBtn(plan);
                       handleRowClick(index)}}>+</button></td>
                   </tr>

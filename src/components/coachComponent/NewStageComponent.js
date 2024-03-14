@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast"
 const NewStageComponent = ({planId, stageType}) => {
 
     const [trainingPlan, setTrainingPlan] = useState(null)
+    const [sequence, setSequence] = useState(1)
     const successToast = (message) => toast.success(message)
     const errorToast = (message) => toast.error(message)
     const dataContextTrainings = useDataContextTrainings()
@@ -21,7 +22,6 @@ const NewStageComponent = ({planId, stageType}) => {
     }
 
     const [formFields, setFormFields] = useState({
-        sequence: 1,
         distance: 0,
         time: 0,
         heartRate: 0,
@@ -42,7 +42,7 @@ const NewStageComponent = ({planId, stageType}) => {
         const stage = {
             distanceInMeters : formFields.distance,
             timeInSeconds : formFields.time,
-            sequence : formFields.sequence,
+            sequence : sequence,
             heartRate : formFields.heartRate,
             description : formFields.description,
             power : formFields.power,
@@ -53,6 +53,7 @@ const NewStageComponent = ({planId, stageType}) => {
             .then(response => {
                 console.log(response)
                 refreshPlan()
+                setSequence(sequence + 1)
             })
             .catch(error => console.log(error))
     }
@@ -80,8 +81,7 @@ const NewStageComponent = ({planId, stageType}) => {
                             <h5>Add new stage:</h5>
                             <form onSubmit={handleSubmit}>
                                 <label className = "form-label">Sequence:</label>
-                                <input type = "number" name = "sequence" className = "form-control" value = {formFields.sequence}
-                                    onChange = {handleFieldChange}/>
+                                <input type = "number" name = "sequence" className = "form-control" value = {sequence} disabled = {true}/>
                                 <label className = "form-label">Distance [m]:</label>
                                 <input type = "number" name = "distance" className = "form-control" value = {formFields.distance}
                                     onChange = {handleFieldChange}/>

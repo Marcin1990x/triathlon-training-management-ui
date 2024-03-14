@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import CoachAthletesComponent from "./CoachAthletesComponent"
 import CoachTrainingPlansComponent from "./CoachTrainingPlansComponent"
 import { Toaster } from "react-hot-toast"
@@ -11,7 +11,7 @@ export default function CoachComponent() {
     const dataContextTrainings = useDataContextTrainings()
 
     const buttonText = () => {
-        return dataContextAthletes.athleteView ? 'See trainings' : 'See athletes';
+        return dataContextAthletes.athleteView ? 'See trainings page' : 'See athletes page';
     }
 
     useEffect( () => {
