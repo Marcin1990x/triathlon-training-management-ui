@@ -13,6 +13,8 @@ const NewStageComponent = ({planId, stageType}) => {
     const errorToast = (message) => toast.error(message)
     const dataContextTrainings = useDataContextTrainings()
 
+    const [repeat, setRepeat] = useState(1)
+
     const refreshPlan = () => {
         getTrainingPlanByIdApi(planId)
             .then(response => {
@@ -36,7 +38,10 @@ const NewStageComponent = ({planId, stageType}) => {
         const {name, value} = event.target
         setFormFields({...formFields, [name] : value})
     }
-    const handleSubmit = (event) => {
+    const handleRepeatChange = (event) => {
+        setRepeat(event.target.value)
+    }
+    const handleAddStage = (event) => {
         
         event.preventDefault()
 
@@ -50,13 +55,30 @@ const NewStageComponent = ({planId, stageType}) => {
             paceInSecondsPerKm : formFields.runPace,
             paceInSeconds : formFields.swimPace
         }
-        addNewSwimStageToTrainingPlanApi(planId, stage, stageType.toLowerCase())
+        if(repeat == 1)
+        {
+            addNewSwimStageToTrainingPlanApi(planId, stage, stageType.toLowerCase())
             .then(response => {
                 console.log(response)
                 refreshPlan()
                 setSequence(sequence + 1)
             })
             .catch(error => console.log(error))
+        } else if (repeat > 1) {
+
+            let tempSequence = sequence
+
+            for(let i = 0; i < repeat; i++) {
+                stage.sequence = tempSequence
+                addNewSwimStageToTrainingPlanApi(planId, stage, stageType.toLowerCase())
+                     .then(
+                        tempSequence += 1
+                    )
+                    .catch(error => console.log(error))
+            }
+            refreshPlan()
+            setSequence(tempSequence)
+        }
     }
 
     const handleAddTrainingPlanBtn = () => {
@@ -80,7 +102,7 @@ const NewStageComponent = ({planId, stageType}) => {
                     <div className="row">
                         <div className="col">
                             <h5>Add new stage:</h5>
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleAddStage}>
                                 <label className = "form-label">Sequence:</label>
                                 <input type = "number" name = "sequence" className = "form-control" value = {sequence} disabled = {true}/>
                                 <label className = "form-label">Distance [m]:</label>
@@ -117,12 +139,12 @@ const NewStageComponent = ({planId, stageType}) => {
                                 <input type = "text" name = "description" className = "form-control" value = {formFields.description}
                                     onChange = {handleFieldChange}/>
                                 <label className = "form-label">Repeat?</label>
-                                <select className="form-select" name ="repeat" value = {formFields.repeat} onChange={handleFieldChange}>
+                                <select className="form-select" name ="repeat" value = {repeat} onChange={handleRepeatChange}>
                                     {[...Array(10).keys()].map(option => (
                                         <option key={option + 1} value={option + 1}>{option + 1}</option>
                                     ))}
                                 </select>
-                                <button className="btn btn-outline-success m-2" type = "submit">Submit</button>
+                                <button className="btn btn-outline-success m-2" type = "submit">Add stage</button>
                             </form>
                         </div>
                         <div className="col"><h5>Stages:</h5>

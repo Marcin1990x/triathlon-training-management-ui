@@ -1,15 +1,16 @@
 const StagesTable = ({stageType, trainingPlan}) => {
+
     return (
         <table className = "table">
         <thead>
             <tr>
-                <th>Sequence</th>
-                <th>Distance</th>
-                <th>Time</th>
-                <th>Heart rate</th>
-                {stageType == 'BIKE' && <th>Power</th>}
-                {(stageType == 'RUN' || stageType == 'SWIM') && <th>Pace</th>}
-                <th>Description</th>
+                 <th>Sequence</th>
+                 <th>Distance</th>
+                 <th>Time</th>
+                 <th>Heart rate</th>
+                 {stageType == 'BIKE' && <th>Power</th>}
+                 {(stageType == 'RUN' || stageType == 'SWIM') && <th>Pace</th>}
+                 <th>Description</th>
             </tr>
         </thead>
         <tbody>
