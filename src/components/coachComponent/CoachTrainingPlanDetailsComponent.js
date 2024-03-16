@@ -1,4 +1,5 @@
 import { removeTrainingPlanApi } from "../api/TrainingPlanApiService"
+import StagesTable from "./StagesTable"
 import { useDataContextTrainings } from "./contexts/DataContextTrainings"
 import { toast } from "react-hot-toast"
 
@@ -19,35 +20,6 @@ const CoachTrainingPlanDetailsComponent = () => {
                 successToast('Training plan deleted.')
             })
     }
-    const Stages = () => {
-        if(plan.stage.length > 0) {
-            return (
-                <div className="table-responsive" style={{ maxHeight: '270px', overflowY: 'auto' }}>
-                    <table className="table" >
-                        <thead>
-                        <tr>
-                            <th>Sequence</th>
-                            <th>Time</th>
-                            <th>Distance</th>
-                            <th>Description</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {plan.stage.map((stage) => 
-                                <tr key = {stage.sequence}>
-                                <td>{stage.sequence}</td>
-                                <td>{stage.timeInSeconds}</td>
-                                <td>{stage.distanceInMeters}</td>
-                                <td>{stage.description}</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-            )
-        }
-    }
-
     return (
         <div>
             {plan && 
@@ -58,7 +30,7 @@ const CoachTrainingPlanDetailsComponent = () => {
                     <button className="btn btn-outline-danger m-1" onClick={() => handleDeleteBtn(plan.id)}>Delete training plan</button>
                 </li>
             </ul> }
-            {plan && <Stages/>}   
+            <StagesTable trainingPlan={plan} stageType={plan.trainingType}/>   
             <br></br>         
         </div>
     )
