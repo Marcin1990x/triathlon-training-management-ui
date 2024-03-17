@@ -11,6 +11,7 @@ const StagesTable = ({stageType, trainingPlan}) => {
                  {stageType == 'BIKE' && <th>Power</th>}
                  {(stageType == 'RUN' || stageType == 'SWIM') && <th>Pace</th>}
                  <th>Description</th>
+                 <th>Repeat:</th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +27,7 @@ const StagesTable = ({stageType, trainingPlan}) => {
                         {stageType == 'RUN' && <td>{stage.paceInSecondsPerKm}</td>}
                         {stageType == 'SWIM' && <td>{stage.paceInSeconds}</td>}
                         <td>{stage.description}</td>
+                        <td>{stage.repeat}</td>
                     </tr>
                 )
             )
