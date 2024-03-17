@@ -30,7 +30,7 @@ const CoachTrainingPlanDetailsComponent = () => {
                     <button className="btn btn-outline-danger m-1" onClick={() => handleDeleteBtn(plan.id)}>Delete training plan</button>
                 </li>
             </ul> }
-            {plan &&
+            {plan && dataContextTrainings.activePlan &&
                 <StagesTable trainingPlan={plan} stageType={plan.trainingType}/> 
             }  
             <br></br>         

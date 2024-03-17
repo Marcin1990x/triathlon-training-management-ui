@@ -2,10 +2,10 @@ import { createContext, useContext, useState } from "react";
 import { executeJwtAuthenticationService } from "../api/AuthenticationApiService"
 import { apiClient } from "../api/ApiClient";
 import { refreshAccessTokenForUserApi } from "../api/UserApiService";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext()
 export const useAuth = () => useContext(AuthContext)
-
 
 export default function AuthProvider({children}) {
 
@@ -84,7 +84,7 @@ export default function AuthProvider({children}) {
             })
     }
     return (
-        <AuthContext.Provider value = {{login, token, isAuthenticated, userId, athleteId, isAthlete, coachId, isCoach,
+        <AuthContext.Provider value = {{login, logout, token, isAuthenticated, userId, athleteId, isAthlete, coachId, isCoach,
                                 hasRefreshToken, stravaAccessExpiresAt, refreshAccessToken}}>
             {children}
         </AuthContext.Provider>

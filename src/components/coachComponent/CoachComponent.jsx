@@ -1,7 +1,6 @@
 import { useEffect } from "react"
 import CoachAthletesComponent from "./CoachAthletesComponent"
 import CoachTrainingPlansComponent from "./CoachTrainingPlansComponent"
-import { Toaster } from "react-hot-toast"
 import { useDataContextAthletes } from "./contexts/DataContextAthletes"
 import { useDataContextTrainings } from "./contexts/DataContextTrainings"
 
@@ -25,9 +24,6 @@ export default function CoachComponent() {
     }
     return (
         <div className = "CoachComponent">
-
-            <Toaster toastOptions={{duration: 4000}}/>
-
             <div className="container">
                 <div className="row">
                     <div className="col">

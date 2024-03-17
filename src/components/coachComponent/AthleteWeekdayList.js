@@ -98,20 +98,21 @@ const  AthleteWeekdayList = () =>  {
     <div>
       {listVisibility.isListVisible &&
         <div className= "weekdaysList">
-          <button className = "btn btn-outline-primary m-2" onClick={() => handlePrevWeek()}>Previous Week</button>
-          <button className = "btn btn-outline-primary m-2" onClick={() => handleNextWeek()}>Next Week</button>
-          <ul className = "list-group">
-            {getWeekdays(currentDate).map((day, index) => (
-              <li className = "athlete-weekdays-list" key={index}>
-                <div className = "row">
-                  <div className = "col">{day.toDateString()}</div>
-                  <div className = "col">{addTrainingPlanBtn(day)}</div>
-                  <div className = "col">{handleTrainingPlanField(day)}</div>
-                  <div className = "col">{handleTrainingRealizationField(day)}</div>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <h5>Athlete week:</h5>
+            <button className = "btn btn-outline-primary m-2" onClick={() => handlePrevWeek()}>Previous Week</button>
+            <button className = "btn btn-outline-primary m-2" onClick={() => handleNextWeek()}>Next Week</button>
+            <ul className = "list-group">
+              {getWeekdays(currentDate).map((day, index) => (
+                <li className = "athlete-weekdays-list" key={index}>
+                  <div className = "row">
+                    <div className = "col">{day.toDateString()}</div>
+                    <div className = "col">{addTrainingPlanBtn(day)}</div>
+                    <div className = "col">{handleTrainingPlanField(day)}</div>
+                    <div className = "col">{handleTrainingRealizationField(day)}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
         </div>
       }
     {listVisibility.isListVisible && <button className="btn btn-outline-primary m-1 float-end" 
