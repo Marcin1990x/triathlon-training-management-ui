@@ -48,6 +48,8 @@ export default function AuthProvider({children}) {
                     return 'athlete'
                 } else if(response.data.coach) {
                     return 'coach'
+                } else {
+                    return 'error'
                 }
             } else {
                 logout()
