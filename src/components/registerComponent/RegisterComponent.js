@@ -1,13 +1,14 @@
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { registerUserApi } from "../api/RegisterApiService"
+import { useNavigate } from "react-router-dom"
 
 const RegisterComponent = () => {
 
     const successToast = (message) => toast.success(message)
     const errorToast = (message) => toast.error(message)
 
-    const [registered, setRegistered] = useState(false)
+    const navigate = useNavigate()
 
     const [formFields, setFormFields] = useState({
         username: '',
@@ -31,8 +32,8 @@ const RegisterComponent = () => {
         if(user.password == formFields.confirmPassword) {
             registerUserApi(user)
                 .then(response => {
-                    successToast('Registration successful! Welcome aboard ' + user.username + '!')
-                    setRegistered(true)
+                    successToast('Registration successful! Welcome aboard ' + user.username + '! You can now log in. ')
+                    navigate('/')
                     console.log(response)
                 })
                 .catch(error => {
@@ -43,10 +44,8 @@ const RegisterComponent = () => {
             errorToast("Oops! It seems like the passwords don't match.")
         }
     }
-
     return (
         <div className="register">
-            {!registered &&
             <div className="container">
                 <div className="row">
                     <div className="col"></div>
@@ -54,11 +53,11 @@ const RegisterComponent = () => {
                         <h5>Register</h5>
                         <form onSubmit={handleRegisterUser}>
                             <label className = "form-label">Username:</label>
-                            <input type = "text" name = "username" className = "form-control" value = {formFields.username}
-                                onChange = {handleFieldChange}/>
+                            <input type = "text" name = "username" className = "form-control" minLength={5} maxLength={20} 
+                                value = {formFields.username} onChange = {handleFieldChange}/>
                             <label className = "form-label">Password:</label>
                             <input type = "password" name = "password" className = "form-control" value = {formFields.password}
-                                onChange = {handleFieldChange}/>
+                                minLength={8} onChange = {handleFieldChange}/>
                             <label className = "form-label">Repeat password:</label>
                             <input type = "password" name = "confirmPassword" className = "form-control" value = {formFields.confirmPassword}
                                 onChange = {handleFieldChange}/>
@@ -71,18 +70,7 @@ const RegisterComponent = () => {
                     <div className="col"></div>
                 </div>
             </div>
-            }
-            {registered &&
-            <div className="container">
-                <div className="row">
-                    <div className="col"></div>
-                    <div className="col">Who you want to be? Coach or Athlete?</div>
-                    <div className="col"></div>
-                </div>
-            </div>
-            }
         </div>
     )
 } 
-
 export default RegisterComponent

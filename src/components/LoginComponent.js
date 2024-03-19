@@ -31,7 +31,7 @@ const LoginComponent = () => {
             } else if (response == 'coach') {
                 navigate('/coach')
             } else {
-                navigate('/error')
+                navigate('/new')
             }
         } else {
             errorToast('Login failed.')

@@ -8,6 +8,7 @@ import DataContextAthletesProvider from "./coachComponent/contexts/DataContextAt
 import DataContextTrainingsProvider from "./coachComponent/contexts/DataContextTrainings";
 import RegisterComponent from "./registerComponent/RegisterComponent";
 import HeaderComponent from "./header/HeaderComponent";
+import NewUserComponent from "./newUserComponent/NewUserComponent";
 
 export default function TriathlonTrainingManagement() {
     return(
@@ -20,6 +21,7 @@ export default function TriathlonTrainingManagement() {
                                 <Route path = '/' element = { <LoginComponent /> } />
                                 <Route path = '/athlete' element = { <AthleteComponent /> } />
                                 <Route path = '/register' element = { <RegisterComponent /> } />
+                                <Route path = '/new' element = { <NewUserComponent /> } />
                                 <Route path = '/coach' element = 
                                     { 
                                     <DataContextAthletesProvider>
