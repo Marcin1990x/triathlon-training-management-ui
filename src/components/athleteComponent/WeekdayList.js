@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import './styles.css'
+import { useDataContextAthlete } from './contexts/DataContextAthlete';
 
-const  WeekdayList = (props) =>  {
+const  WeekdayList = () =>  {
+
   const [currentDate, setCurrentDate] = useState(new Date());
+  const dataContextAthlete = useDataContextAthlete()
 
   function getWeekdays(date) {
     const weekdays = [];
@@ -29,14 +32,14 @@ const  WeekdayList = (props) =>  {
   }
   const TrainingButton = (properties) => {
     return (
-      <button className = "btn btn-outline-dark m-1" onClick = {() => props.onDayFieldClick(properties.training)}>
+      <button className = "btn btn-outline-dark m-1" onClick = {() => dataContextAthlete.setActiveTrainingFunction(properties.training)}>
         {properties.textField(properties.training)}
       </button>
     )
   }
 
   function handleTrainingPlanField(date){
-    const filtered = props.plans.filter((plan => plan.plannedDate === formatDate(date)))
+    const filtered = dataContextAthlete.trainingPlans.filter((plan => plan.plannedDate === formatDate(date)))
     if(filtered.length > 0) {
       return (
         <div className = "row">
@@ -54,7 +57,7 @@ const  WeekdayList = (props) =>  {
   }
 
   function handleTrainingRealizationField(date){
-    const filtered = props.realizations.filter((realization => realization.realizationDate === formatDate(date)))
+    const filtered = dataContextAthlete.trainingRealizations.filter((realization => realization.realizationDate === formatDate(date)))
     if(filtered.length > 0) {
         return(
           <div className = "row">
@@ -82,8 +85,8 @@ const  WeekdayList = (props) =>  {
 
   return (
     <div>
-      <button className = "btn btn-outline-success m-2" onClick={() => handlePrevWeek()}>Previous Week</button>
-      <button className = "btn btn-outline-success m-2" onClick={() => handleNextWeek()}>Next Week</button>
+      <button className = "btn btn-outline-primary m-2" onClick={() => handlePrevWeek()}>Previous Week</button>
+      <button className = "btn btn-outline-primary m-2" onClick={() => handleNextWeek()}>Next Week</button>
       <ul className = "list-group">
         {getWeekdays(currentDate).map((day, index) => (
           <li className = "weekdays-list" key={index}>

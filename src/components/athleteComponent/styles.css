@@ -1,5 +1,5 @@
 .training-box {
-    background-color: #daf6dd;
+    background-color: #ffffff;
     border: 1px solid #000000;
     padding: 10px;
     margin-bottom: 10px;
@@ -10,12 +10,13 @@
   }
   .weekdays-list {
     list-style-type: none;
-    background-color: #eef7ef;
-    border: 1px solid #000000;
+    background-color: #ffffff;
+    border: 1px solid #d7d7d7;
     padding: 5px;
     margin-bottom: 1px;
     margin-top: 1px;
     height: auto;
-    margin-left: 50px;
-    margin-right: 50px;
+    margin-left: 20x;
+    margin-right: 20px;
   }
+

@@ -1,11 +1,13 @@
 import { useState } from "react"
 import { updateTrainingRealizationByIdApi } from "../api/TrainingRealizationApiService"
+import { useDataContextAthlete } from "./contexts/DataContextAthlete"
 
 const FeelingBox = (props) => {
 
     const [feelings, setFeelings] = useState('NORMAL')
     const [rpe, setRpe] = useState(0)
     const [description, setDescription] = useState('')
+    const dataContextAthlete = useDataContextAthlete()
 
     const updateTraining = event => {
 
@@ -24,7 +26,7 @@ const FeelingBox = (props) => {
         updateTrainingRealizationByIdApi(props.trainingId, updateRequest)
             .then(response => {
                 console.log(response)
-                props.refreshUpdatedTraining(response.data)
+                dataContextAthlete.setActiveTrainingFunction(response.data)
                 props.refreshTrainings()
             })
             .catch(error => console.log(error))

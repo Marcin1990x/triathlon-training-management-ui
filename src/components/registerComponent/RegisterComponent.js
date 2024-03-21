@@ -29,17 +29,25 @@ const RegisterComponent = () => {
             emailAddress: formFields.emailAddress,
             password: formFields.password
         }
+        if(!user.password == formFields.confirmPassword) {
+            
+        }
+
         if(user.password == formFields.confirmPassword) {
-            registerUserApi(user)
-                .then(response => {
-                    successToast('Registration successful! Welcome aboard ' + user.username + '! You can now log in and choose your role.')
-                    navigate('/')
-                    console.log(response)
-                })
-                .catch(error => {
-                    console.log(error)
-                    errorToast(error.response.data.message)
-                })
+            if(user.username.length >= 8 && user.password.length >= 8) {
+                registerUserApi(user)
+                    .then(response => {
+                        successToast('Registration successful! Welcome aboard ' + user.username + '! You can now log in and choose your role.')
+                        navigate('/')
+                        console.log(response)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        errorToast(error.response.data.message)
+                    })
+            } else {
+                errorToast('Please fill in all required fields')
+            }
         } else {
             errorToast("Oops! It seems like the passwords don't match.")
         }

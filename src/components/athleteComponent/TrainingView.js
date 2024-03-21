@@ -1,9 +1,12 @@
 import { useState } from "react"
 import FeelingBox from "./FeelingBox"
+import { useDataContextAthlete } from "./contexts/DataContextAthlete"
 
 const TrainingView = (props) => {
 
-    const training = props.training
+    const dataContextAthlete = useDataContextAthlete()
+
+    const training = dataContextAthlete.activeTraining
 
     const [feelingsBoxVisible, setFeelingsBoxVisible] = useState(false)
     function handleAddFeelings() {
@@ -37,7 +40,7 @@ const TrainingView = (props) => {
                 </button>
                 {
                     feelingsBoxVisible && <FeelingBox trainingId = {training.id} 
-                        refreshUpdatedTraining = {props.refreshUpdatedTraining} refreshTrainings = {props.refreshTrainings}/>
+                         refreshTrainings = {props.refreshTrainings}/>
                 }
             </div>
         )

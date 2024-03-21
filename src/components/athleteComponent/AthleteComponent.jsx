@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react"
-import { getTrainingPlansByAthleteIdApi } from "../api/TrainingPlanApiService"
-import { getTrainingRealizationsByAthleteIdApi, synchronizeActivitiesForAthleteApi } from "../api/TrainingRealizationApiService"
+import { synchronizeActivitiesForAthleteApi } from "../api/TrainingRealizationApiService"
 import { useAuth } from "../security/AuthContext"
 import moment from 'moment'
 import WeekdayList from "./WeekdayList"
 import TrainingView from "./TrainingView"
+import { useDataContextAthlete } from "./contexts/DataContextAthlete"
 
 export default function AthleteComponent() {
 
     const authContext = useAuth()
-
-    const [trainingPlans, setTrainingPlans] = useState([])
-    const [trainingRealizations, setTrainingRealizations] = useState([])
+    const dataContextAthlete = useDataContextAthlete()
 
     const [render, setRender] = useState(0)
 
@@ -20,27 +18,11 @@ export default function AthleteComponent() {
     }
 
     useEffect ( () => {
-         getTrainingPlans()
-         getTrainingRealizations()
-        }, [render] )
+        dataContextAthlete.getTrainingPlans()
+        dataContextAthlete.getTrainingRealizations()
+        }, [render])
          
 
-    function getTrainingPlans() {
-        getTrainingPlansByAthleteIdApi(authContext.athleteId)
-            .then(response => {
-                console.log(response)
-                setTrainingPlans(response.data)
-            })
-            .catch(error => console.log(error))
-    }
-    function getTrainingRealizations() {
-        getTrainingRealizationsByAthleteIdApi(authContext.athleteId)
-            .then(response => {
-                console.log(response)
-                setTrainingRealizations(response.data)
-            })
-            .catch(error => console.log(error))
-    }
     function handleSynchronizeButton() {
         if(isAccessTokenExpired()){
             if(authContext.refreshAccessToken()){
@@ -72,23 +54,17 @@ export default function AthleteComponent() {
             })
             .catch(error => console.log(error))
     }
-
-    const [activeTraining, setActiveTraining] = useState(null)
-    function setActiveTrainingFunction(training) {
-        setActiveTraining(training)
-    }
-
     return(
         <div className="AthleteComponent">
 
             <h2>Athlete page</h2>
 
-            <WeekdayList plans = {trainingPlans} realizations = {trainingRealizations} onDayFieldClick = {setActiveTrainingFunction}/>
+            <WeekdayList/>
 
             <div className="training-box">
-                <TrainingView training = {activeTraining} refreshUpdatedTraining = {setActiveTrainingFunction} refreshTrainings = {reRender}/> 
+                <TrainingView refreshTrainings = {reRender}/> 
             </div>
-            <button className = "btn btn-outline-success m-2" onClick = {() => handleSynchronizeButton()}>Synchronize with Strava</button>
+            <button className = "btn btn-outline-primary m-2" onClick = {() => handleSynchronizeButton()}>Synchronize with Strava</button>
         </div>
     )
 }

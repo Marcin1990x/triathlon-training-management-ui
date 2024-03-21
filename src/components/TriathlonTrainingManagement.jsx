@@ -9,6 +9,7 @@ import DataContextTrainingsProvider from "./coachComponent/contexts/DataContextT
 import RegisterComponent from "./registerComponent/RegisterComponent";
 import HeaderComponent from "./header/HeaderComponent";
 import NewUserComponent from "./newUserComponent/NewUserComponent";
+import DataContextAthleteProvider from "./athleteComponent/contexts/DataContextAthlete";
 
 export default function TriathlonTrainingManagement() {
     return(
@@ -19,7 +20,12 @@ export default function TriathlonTrainingManagement() {
                         <WeekdayListVisibilityProvider>
                             <Routes>
                                 <Route path = '/' element = { <LoginComponent /> } />
-                                <Route path = '/athlete' element = { <AthleteComponent /> } />
+                                <Route path = '/athlete' element = 
+                                    { 
+                                    <DataContextAthleteProvider>
+                                        <AthleteComponent /> 
+                                    </DataContextAthleteProvider>
+                                    } />
                                 <Route path = '/register' element = { <RegisterComponent /> } />
                                 <Route path = '/new' element = { <NewUserComponent /> } />
                                 <Route path = '/coach' element = 
