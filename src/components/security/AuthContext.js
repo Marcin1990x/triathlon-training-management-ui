@@ -2,7 +2,6 @@ import { createContext, useContext, useState } from "react";
 import { executeJwtAuthenticationService } from "../api/AuthenticationApiService"
 import { apiClient } from "../api/ApiClient";
 import { refreshAccessTokenForUserApi } from "../api/UserApiService";
-import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext()
 export const useAuth = () => useContext(AuthContext)
@@ -18,6 +17,8 @@ export default function AuthProvider({children}) {
     const [isCoach, setIsCoach] = useState(false)
     const [hasRefreshToken, setHasRefreshToken] = useState(false)
     const [stravaAccessExpiresAt, setStravaAccessExpiresAt] = useState(null)
+
+    const [interceptor, setInterceptor] = useState(null)
 
     async function login (username, password) {
 
@@ -38,12 +39,14 @@ export default function AuthProvider({children}) {
                 setHasRefreshToken(response.data.hasRefreshToken)
                 setStravaAccessExpiresAt(response.data.stravaAccessExpiresAt)
 
-                apiClient.interceptors.request.use (
+                const newInterceptor = apiClient.interceptors.request.use (
                         (config) => {
                             config.headers.Authorization = token
                             return config
                         }
                     )
+                setInterceptor(newInterceptor)
+                
                 if(response.data.athlete) {
                     return 'athlete'
                 } else if(response.data.coach) {
@@ -61,10 +64,10 @@ export default function AuthProvider({children}) {
             return 'login failed'
         }
     }
-
     function logout() {
-        setAuthenticated(false)
         setToken(null)
+        apiClient.interceptors.request.eject(interceptor)
+        setAuthenticated(false)
         setUserId(null)
         setAthleteId(null)
         setIsAthlete(false)
@@ -85,6 +88,7 @@ export default function AuthProvider({children}) {
                 return false
             })
     }
+
     return (
         <AuthContext.Provider value = {{login, logout, token, isAuthenticated, userId, athleteId, isAthlete, coachId, isCoach,
                                 hasRefreshToken, stravaAccessExpiresAt, refreshAccessToken}}>
