@@ -10,7 +10,6 @@ const LoginComponent = () => {
 
     const errorToast = (message) => toast.error(message)
     const successToast = (message) => toast.success(message)
-    
 
     const [username, setUsername] = useState('login')
     const [password, setPassword] = useState('password')

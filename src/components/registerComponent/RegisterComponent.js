@@ -32,7 +32,7 @@ const RegisterComponent = () => {
         if(user.password == formFields.confirmPassword) {
             registerUserApi(user)
                 .then(response => {
-                    successToast('Registration successful! Welcome aboard ' + user.username + '! You can now log in. ')
+                    successToast('Registration successful! Welcome aboard ' + user.username + '! You can now log in and choose your role.')
                     navigate('/')
                     console.log(response)
                 })

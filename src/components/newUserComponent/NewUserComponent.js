@@ -17,7 +17,6 @@ const NewUserComponent = () => {
     const [selectedOption, setSelectedOption] = useState('...')
     const handleSelectOption = (event) => {
         setSelectedOption(event.target.value)
-        console.log(selectedOption)
     }
     const [formFieldsRole, setFormFieldsRole] = useState({
         firstName: '',
@@ -39,19 +38,29 @@ const NewUserComponent = () => {
             if(selectedOption == 'athlete') {
                 addNewAthleteApi(role)
                     .then(response => {
-                        addAthleteToUserApi(authContext.userId, response.data.id)
                         console.log(response)
-                        successToast('Congratulations, you are now an Athlete!')
-                        navigate('/athlete')
+                        addAthleteToUserApi(authContext.userId, response.data.id)
+                            .then(response => {
+                                console.log(response)
+                                successToast('Congratulations, you are now an Athlete! Please log in again.')
+                                authContext.logout()
+                                navigate('/')
+                            })
+                            .catch(error => console.log(error))
                 })
                     .catch(error => console.log(error))
             } else {
                 addNewCoachApi(role)
                     .then(response => {
-                        addCoachToUserApi(authContext.userId, response.data.id)
                         console.log(response)
-                        successToast('Congratulations, you are now an Coach!')
-                        navigate('/coach')
+                        addCoachToUserApi(authContext.userId, response.data.id)
+                            .then(response => {
+                                console.log(response)
+                                successToast('Congratulations, you are now an Coach! Please log in again.')
+                                authContext.logout()
+                                navigate('/')
+                            })
+                            .catch(error => console.log(error))
                     })
                     .catch(error => console.log(error))
             }
