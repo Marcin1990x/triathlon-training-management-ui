@@ -1,33 +1,72 @@
 import { useState } from "react"
 import { getByLastnameApi } from "../api/AthletesApiService"
+import { toast } from "react-hot-toast"
+import { addAthleteToCoach } from "../api/CoachApiService"
+import { useAuth } from "../security/AuthContext"
+import { useNavigate } from "react-router-dom"
 
 const AddAthleteComponent = () => {
+
+    const authContext = useAuth()
+    const navigate = useNavigate()
 
     const [search, setSearch] = useState(false)
     const [lastname, setLastname] = useState('')
     const [athletes, setAthletes] = useState([])
+
+    const errorToast = (message) => toast.error(message)
+    const successToast = (message) => toast.success(message)
 
     const handleFieldChange = (event) => {
         setLastname(event.target.value)
     }
 
     const handleSetSearchBtn = () => {
-        setSearch(true)
+        
+
+        if(lastname.length >= 2) {
+
 
         getByLastnameApi(lastname)
             .then(response => {
                 console.log(response)
                 setAthletes(response.data)
+                if(response.data.length > 0) {
+                    setSearch(true)
+                } else {
+                    errorToast('We are sorry, but we could not find any athletes that match your search.')
+                }
             })
             .catch(error => console.error(error))
+        } else {
+            errorToast('Please enter at least two characters for search.')
+        }
     }
-    const handleAddBtn = (id) => {
-        console.log(id)
+    const handleAddBtn = (id, lastname) => {
+
+        addAthleteToCoach(authContext.coachId, id)
+            .then(response => {
+                console.log(response)
+                successToast('Athlete ' + lastname + ' successfully added!')
+                navigate(`/coach`)
+            })
+            .catch(error => console.log(error))
+    }
+    const handleBackBtn = () => {
+
+        navigate(`/coach`)
     }
 
     return (
         <div className="addAthleteComponent">
             <div className="container">
+                <div className="row">
+                    <div className="col"></div>
+                    <div className="col"></div>
+                    <div className="col">
+                        <button className="btn btn-outline-primary" onClick={() => handleBackBtn()}>Back</button>
+                    </div>
+                </div>
                 <div className="row">
                     <div className="col"></div>
                     <div className="col">
@@ -52,7 +91,7 @@ const AddAthleteComponent = () => {
                                                 <td>{athlete.firstName}</td>
                                                 <td>{athlete.lastName}</td>
                                                 <td><button className="btn btn-outline-primary" 
-                                                    onClick={() => handleAddBtn(athlete.id)}>Add</button></td>
+                                                    onClick={() => handleAddBtn(athlete.id, athlete.lastName)}>Add</button></td>
                                             </tr>
                                        )) 
                                     }

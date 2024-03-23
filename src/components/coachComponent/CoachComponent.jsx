@@ -26,11 +26,18 @@ export default function CoachComponent() {
         <div className = "CoachComponent">
             <div className="container">
                 <div className="row">
+                    <div className="col"></div>
+                    <div className="col"></div>
+                    <div className="col">
+                        {!dataContextAthletes.addPlanMode && !dataContextTrainings.newTrainingView &&
+                            <button className = "btn btn-outline-primary" onClick = {handleSwitchViewBtn}>{buttonText()}</button> 
+                        }
+                    </div>
+                </div>
+                <div className="row">
                     <div className="col">
                         <h2>Coach page</h2> 
-                        {!dataContextAthletes.addPlanMode && !dataContextTrainings.newTrainingView &&
-                            <button className = "btn btn-primary float-end m-2" onClick = {handleSwitchViewBtn}>{buttonText()}</button> 
-                        }
+                        <br></br>
                         {dataContextAthletes.addPlanMode &&
                             <button className = "btn btn-warning m-2" 
                                 onClick = {() => dataContextAthletes.handleAddPlanMode(false)}>Cancel adding plan
