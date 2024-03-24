@@ -5,6 +5,7 @@ import moment from 'moment'
 import WeekdayList from "./WeekdayList"
 import TrainingView from "./TrainingView"
 import { useDataContextAthlete } from "./contexts/DataContextAthlete"
+import CoachInfoComponent from "./CoachInfoComponent"
 
 export default function AthleteComponent() {
 
@@ -20,6 +21,7 @@ export default function AthleteComponent() {
     useEffect ( () => {
         dataContextAthlete.getTrainingPlans()
         dataContextAthlete.getTrainingRealizations()
+        dataContextAthlete.getAthlete()
         }, [render])
          
 
@@ -57,14 +59,25 @@ export default function AthleteComponent() {
     return(
         <div className="AthleteComponent">
 
-            <h2>Athlete page</h2>
-
-            <WeekdayList/>
-
-            <div className="training-box">
-                <TrainingView refreshTrainings = {reRender}/> 
+            <div className="row">
+                <div className="col"></div>
+                <div className="col"></div>
+                <div className="col"><CoachInfoComponent/></div>
             </div>
-            <button className = "btn btn-outline-primary m-2" onClick = {() => handleSynchronizeButton()}>Synchronize with Strava</button>
+            <div className="row">
+                <div className="col"></div>
+                <div className="col-md-10">
+                    <h2>Athlete page</h2>
+
+                    <WeekdayList/>
+
+                    <div className="training-box">
+                        <TrainingView refreshTrainings = {reRender}/> 
+                    </div>
+                    <button className = "btn btn-outline-primary m-2" onClick = {() => handleSynchronizeButton()}>Synchronize with Strava</button>
+                </div>
+                <div className="col"></div>
+            </div>
         </div>
     )
 }
