@@ -6,7 +6,7 @@ import { useDataContextAthletes } from './contexts/DataContextAthletes';
 const  AthleteWeekdayList = () =>  {
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  const listVisibility = useWeekdayListVisibility()
+  const {setVisibility}= useWeekdayListVisibility()
   const DataContextAthletes = useDataContextAthletes()
 
   function getWeekdays(date) {
@@ -96,7 +96,6 @@ const  AthleteWeekdayList = () =>  {
 
   return (
     <div>
-      {listVisibility.isListVisible &&
         <div className= "weekdaysList">
           <h5>Athlete week:</h5>
             <button className = "btn btn-outline-primary m-2" onClick={() => handlePrevWeek()}>Previous Week</button>
@@ -113,10 +112,9 @@ const  AthleteWeekdayList = () =>  {
                 </li>
               ))}
             </ul>
-        </div>
-      }
-    {listVisibility.isListVisible && <button className="btn btn-outline-primary m-1 float-end" 
-      onClick = {() => listVisibility.setVisibility(false)}>Close panel</button> }
+            <button className="btn btn-outline-primary m-1 float-end" 
+                onClick = {() => setVisibility(false)}>Close panel</button>
+        </div> 
     </div>
   )
 }

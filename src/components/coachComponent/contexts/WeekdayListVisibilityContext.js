@@ -10,8 +10,6 @@ const WeekdayListVisibilityProvider = ({children}) => {
     const setVisibility = (isVisible) => {
         setIsListVisible(isVisible)
     }
-
-
     return (
         <WeekdayListVisibilityContext.Provider value = {{isListVisible, setVisibility}}>
             {children}
