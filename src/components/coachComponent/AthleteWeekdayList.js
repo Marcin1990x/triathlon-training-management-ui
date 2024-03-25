@@ -83,9 +83,17 @@ const  AthleteWeekdayList = () =>  {
   // add training plan to athlete
 
   const addTrainingPlanBtn = (day) => {
-    return  <button className = "btn btn-outline-success btn-sm m-1" onClick = {() => {
+
+    return  <button className = "btn btn-outline-success btn-sm m-1" disabled = {isDateTodayOrLater(day)} onClick = {() => {
                 DataContextAthletes.handleAddPlanMode(true, day)}}>Add plan
             </button>
+  }
+  const isDateTodayOrLater = (date) => {
+    const today = new Date()
+    today.setHours(1, 0, 0, 0)
+    date.setHours(1, 0, 0, 0)
+
+    return date < today
   }
 
   // remove training plan from athlete
