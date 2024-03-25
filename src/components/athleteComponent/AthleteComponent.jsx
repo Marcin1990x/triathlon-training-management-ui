@@ -70,11 +70,13 @@ export default function AthleteComponent() {
                     <h2>Athlete page</h2>
 
                     <WeekdayList/>
-
-                    <div className="training-box">
-                        <TrainingView refreshTrainings = {reRender}/> 
-                    </div>
-                    <button className = "btn btn-outline-primary m-2" onClick = {() => handleSynchronizeButton()}>Synchronize with Strava</button>
+                    {dataContextAthlete.activeTraining && 
+                        <div className="training-box">
+                            <TrainingView refreshTrainings = {reRender}/> 
+                        </div>
+                    }
+                    <button className = "btn btn-outline-primary m-3" 
+                        onClick = {() => handleSynchronizeButton()}>Synchronize my trainings with Strava</button>
                 </div>
                 <div className="col"></div>
             </div>

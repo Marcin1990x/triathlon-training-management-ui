@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { updateTrainingRealizationByIdApi } from "../api/TrainingRealizationApiService"
 import { useDataContextAthlete } from "./contexts/DataContextAthlete"
+import { toast } from "react-hot-toast"
 
 const FeelingBox = (props) => {
 
@@ -8,6 +9,8 @@ const FeelingBox = (props) => {
     const [rpe, setRpe] = useState(0)
     const [description, setDescription] = useState('')
     const dataContextAthlete = useDataContextAthlete()
+
+    const successToast = (message) => toast.success(message)
 
     const updateTraining = event => {
 
@@ -28,6 +31,7 @@ const FeelingBox = (props) => {
                 console.log(response)
                 dataContextAthlete.setActiveTrainingFunction(response.data)
                 props.refreshTrainings()
+                successToast('Feelings added successfully.')
             })
             .catch(error => console.log(error))
     }
@@ -54,21 +58,13 @@ const FeelingBox = (props) => {
                 </select>
             <label>RPE:</label>    
                 <select className = "form-select" onChange = {rpeChangeHandler} value = {rpe}>
-                    <option value = '0'>0</option>
-                    <option value = '1'>1</option>
-                    <option value = '2'>2</option>
-                    <option value = '3'>3</option>
-                    <option value = '4'>4</option>
-                    <option value = '5'>5</option>
-                    <option value = '6'>6</option>
-                    <option value = '7'>7</option>
-                    <option value = '8'>8</option>
-                    <option value = '9'>9</option>
-                    <option value = '10'>10</option>
+                    {[...Array(11).keys()].map(option => (
+                        <option key={option} value={option}>{option}</option>
+                    ))}
                 </select>
             <label>Description:</label> 
                 <input type = "text" maxLength = {80} value = {description} className="form-control" onChange = {descriptionChangeHandler}></input>
-            <button className = "btn btn-outline-dark m-2" type = "submit">Save</button>
+            <button className = "btn btn-outline-primary m-2" type = "submit">Save</button>
         </form>
     </div>
     )
