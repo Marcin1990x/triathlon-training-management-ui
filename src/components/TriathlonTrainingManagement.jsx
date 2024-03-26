@@ -11,6 +11,7 @@ import HeaderComponent from "./header/HeaderComponent";
 import NewUserComponent from "./newUserComponent/NewUserComponent";
 import DataContextAthleteProvider from "./athleteComponent/contexts/DataContextAthlete";
 import AddAthleteComponent from "./coachComponent/AddAthleteComponent";
+import StravaComponent from "./athleteComponent/strava/StravaComponent";
 
 export default function TriathlonTrainingManagement() {
     return(
@@ -27,6 +28,7 @@ export default function TriathlonTrainingManagement() {
                                         <AthleteComponent /> 
                                     </DataContextAthleteProvider>
                                     } />
+                                <Route path = '/athlete/strava' element = { <StravaComponent /> } />
                                 <Route path = '/register' element = { <RegisterComponent /> } />
                                 <Route path = '/new' element = { <NewUserComponent /> } />
                                 <Route path = '/coach' element = 

@@ -5,13 +5,19 @@ import { Toaster, toast } from "react-hot-toast"
 const HeaderComponent = () => {
 
     const navigate = useNavigate()
-    const authContext = useAuth()
+    const {logout, isAuthenticated, isAthlete} = useAuth()
     const successToast = (message) => toast.success(message)
 
     const handleLogoutBtn = () => {
-        authContext.logout()
+        logout()
         navigate(`/`)
         successToast('Logged out succesfully.')
+    }
+    const handleStravaBtn = () => {
+        navigate(`/athlete/strava`)
+    }
+    const handleAthleteBtn = () => {
+        navigate(`/athlete`)
     }
 
     return (
@@ -21,14 +27,18 @@ const HeaderComponent = () => {
                     <div className="row">
                         <nav className="navbar navbar-expand-lg">
                             <div className="collapse navbar-collapse">
-                                <button className="btn btn-dark btn-sm m-1">Button</button>
-                                <button className="btn btn-dark btn-sm m-1">Button</button>
+                                {isAthlete &&
+                                <div>
+                                    <button className="btn btn-warning btn-sm m-1" onClick = {() => handleStravaBtn()}>Strava</button>
+                                    <button className="btn btn-dark btn-sm m-1" onClick = {() => handleAthleteBtn()}>Athlete</button>
+                                </div>
+                                }
                             </div>
                             <ul className="navbar-nav">
                                 <li className="nav-item fs-5">
                                     <div>
                                         <button className="btn btn-dark btn-sm m-1">Button</button>
-                                        {authContext.isAuthenticated && 
+                                        {isAuthenticated && 
                                         <button className="btn btn-danger btn-sm m-1" onClick={() => handleLogoutBtn()}>Logout</button> }
                                     </div>
                                 </li>

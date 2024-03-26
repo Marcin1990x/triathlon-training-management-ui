@@ -77,10 +77,11 @@ export default function AuthProvider({children}) {
         setStravaAccessExpiresAt(null)
     }
 
-    function refreshAccessToken() {
-        refreshAccessTokenForUserApi(userId)
+    const refreshAccessToken= () => {
+         refreshAccessTokenForUserApi(userId)
             .then(response => {
                 console.log(response)
+                setStravaAccessExpiresAt(response.data)
                 return true 
             })
             .catch(error => {

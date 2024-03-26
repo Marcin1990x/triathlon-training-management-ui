@@ -69,5 +69,4 @@ const FeelingBox = (props) => {
     </div>
     )
 }
-
 export default FeelingBox
