@@ -1,6 +1,5 @@
 const StagesTable = ({stageType, trainingPlan}) => {
 
-
     if(trainingPlan.stage.length > 0) {
     return (
         <table className = "table">

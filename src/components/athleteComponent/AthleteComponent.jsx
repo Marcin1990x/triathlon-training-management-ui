@@ -3,14 +3,15 @@ import WeekdayList from "./WeekdayList"
 import TrainingView from "./TrainingView"
 import { useDataContextAthlete } from "./contexts/DataContextAthlete"
 import CoachInfoComponent from "./CoachInfoComponent"
+import NewTrainingRealization from "./NewTrainingRealization"
 
 export default function AthleteComponent() {
 
     const dataContextAthlete = useDataContextAthlete()
-
+    const [addRealizationView, setAddRealizationView] = useState(false)
     const [render, setRender] = useState(0)
 
-    function reRender() {
+    const reRender = () => {
         setRender(render + 1)
     }
 
@@ -19,26 +20,53 @@ export default function AthleteComponent() {
         dataContextAthlete.getTrainingRealizations()
         dataContextAthlete.getAthlete()
         }, [render])
+
+    const handleAddRealizationBtn = () => {
+        setAddRealizationView(!addRealizationView)
+    }
+    const toggleViewBtn = () => {
+        if(addRealizationView) {
+            return 'Cancel'
+        } else {
+            return 'Add realization'
+        }
+    }
     
     return(
         <div className="AthleteComponent">
+            <h2>Athlete page</h2>
             <div className="row">
                 <div className="col"></div>
                 <div className="col"></div>
                 <div className="col"><CoachInfoComponent/></div>
             </div>
+            {!addRealizationView &&
+                <div className = "weekdaysView">
+                    <div className="row">
+                        <div className="col"></div>
+                        <div className="col-md-10">
+                            <WeekdayList/>
+                            {dataContextAthlete.activeTraining && 
+                                <div className="training-box">
+                                    <TrainingView refreshTrainings = {reRender}/> 
+                                </div>
+                            }
+                        </div>
+                        <div className="col"></div>
+                    </div>
+                </div>
+            }
+            {addRealizationView &&
+                <div className="addRealizationView">
+                    <NewTrainingRealization/>
+                </div>
+            }
             <div className="row">
                 <div className="col"></div>
-                <div className="col-md-10">
-                    <h2>Athlete page</h2>
-                    <WeekdayList/>
-                    {dataContextAthlete.activeTraining && 
-                        <div className="training-box">
-                            <TrainingView refreshTrainings = {reRender}/> 
-                        </div>
-                    }
-                </div>
                 <div className="col"></div>
+                <div className="col">
+                    <button className="btn btn-outline-success m-2" onClick = {() => handleAddRealizationBtn()}>{toggleViewBtn()}</button>
+                </div>
             </div>
         </div>
     )
