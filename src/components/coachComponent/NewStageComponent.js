@@ -124,7 +124,7 @@ const NewStageComponent = ({planId, stageType}) => {
                                         <option key={option + 1} value={option + 1}>{option + 1}</option>
                                     ))}
                                 </select>
-                                <button className="btn btn-outline-success m-2" type = "submit">Add stage</button>
+                                
                             </form>
                         </div>
                         <div className="col"><h5>Stages:</h5>

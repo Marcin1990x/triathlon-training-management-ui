@@ -5,3 +5,5 @@ export const getTrainingRealizationsByAthleteIdApi = (id) => apiClient.get(`athl
 export const synchronizeActivitiesForAthleteApi = (id) => apiClient.put(`athletes/${id}/training-realizations`)
 
 export const updateTrainingRealizationByIdApi = (id, updateRequest) => apiClient.put(`training-realizations/${id}`, updateRequest)
+
+export const addNewTrainingRealizationForAthlete = (id, training) => apiClient.post(`athletes/${id}/training-realizations`, training)

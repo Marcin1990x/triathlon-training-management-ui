@@ -21,7 +21,10 @@ export default function AthleteComponent() {
         dataContextAthlete.getAthlete()
         }, [render])
 
-    const handleAddRealizationBtn = () => {
+    const handleToggleViewBtn = () => {
+        toggleView()
+    }
+    const toggleView = () => {
         setAddRealizationView(!addRealizationView)
     }
     const toggleViewBtn = () => {
@@ -58,14 +61,14 @@ export default function AthleteComponent() {
             }
             {addRealizationView &&
                 <div className="addRealizationView">
-                    <NewTrainingRealization/>
+                    <NewTrainingRealization toggleView = {toggleView}/>
                 </div>
             }
             <div className="row">
                 <div className="col"></div>
                 <div className="col"></div>
                 <div className="col">
-                    <button className="btn btn-outline-success m-2" onClick = {() => handleAddRealizationBtn()}>{toggleViewBtn()}</button>
+                    <button className="btn btn-outline-success m-2" onClick = {() => handleToggleViewBtn()}>{toggleViewBtn()}</button>
                 </div>
             </div>
         </div>
