@@ -14,8 +14,11 @@ const NewTrainingRealization = ({toggleView}) => {
         sport: 'RUN',
         name: '',
         date: '',
-        distance: 0,
-        time: 0,
+        distanceKm: 0,
+        distanceHundreds: 0,
+        timeH: 0,
+        timeM: 0,
+        timeS: 0,
         averageWatts: 0,
         maxWatts: 0,
         averageHeartRate: 0,
@@ -35,8 +38,8 @@ const NewTrainingRealization = ({toggleView}) => {
 
         const newTraining = {
             name: formFields.name,
-            distanceInMeters: formFields.distance,
-            timeInSeconds: formFields.time,
+            distanceInMeters: countDistance(formFields.distanceKm, formFields.distanceHundreds),
+            timeInSeconds: countTime(formFields.timeH, formFields.timeM, formFields.timeS),
             type: formFields.sport,
             realizationDate: formFields.date,
             averageWarrs: formFields.averageWatts,
@@ -56,8 +59,15 @@ const NewTrainingRealization = ({toggleView}) => {
                 toggleView()
             })
             .catch(error => console.log(error))
-
     }
+
+    const countDistance = (km, hundreds) => {
+        return km * 1000 + hundreds * 100
+    }
+    const countTime = (hours, minutes, seconds) => {
+        return hours * 3600 + minutes * 60 + seconds * 1
+    }
+
     return (
         <div className="newTrainingRealizaion">
             <div className="row">
@@ -75,34 +85,60 @@ const NewTrainingRealization = ({toggleView}) => {
                     <input type = "text" name = "name" className = "form-control" value = {formFields.name}
                         onChange = {handleFieldChange} required/>
                     <label className = "form-label">Realization date:</label>
-                    <input type = "text" name = "date" className = "form-control" value = {formFields.date}
+                    <input type = "date" name = "date" className = "form-control" value = {formFields.date}
                         onChange = {handleFieldChange} required/>
                     {formFields.sport != 'WEIGHT' &&
                     <div>
-                        <label className = "form-label">Distance:</label>
-                        <input type = "number" name = "distance" className = "form-control" value = {formFields.distance}
-                            onChange = {handleFieldChange} required/>
+                        <label className = "form-label">Distance [km]:</label>
+                        <div className="row">
+                            <div className="col-6">
+                                <input type = "number" name = "distanceKm" className = "form-control" min = {0} max = {1000}
+                                    value = {formFields.distanceKm} onChange = {handleFieldChange} required/>
+                                </div>
+                            <div className="col-1">
+                                <h5>,</h5>
+                            </div>
+                            <div className="col-5">
+                                <input type = "number" name = "distanceHundreds" className = "form-control" min = {0} max = {9}
+                                    value = {formFields.distanceHundreds} onChange = {handleFieldChange} required/>
+                            </div>
+                        </div>
                     </div>
                     }
                     <label className = "form-label">Time:</label>
-                    <input type = "number" name = "time" className = "form-control" value = {formFields.time}
-                        onChange = {handleFieldChange} required/>
+                    <div className="row">
+                        <div className="col">
+                            <input type = "number" name = "timeH" className = "form-control" value = {formFields.timeH}
+                                min = {0} max = {99} onChange = {handleFieldChange} required/> 
+                            <p>h</p>
+                        </div>
+                        <div className="col">
+                            <input type = "number" name = "timeM" className = "form-control" value = {formFields.timeM}
+                                min = {0} max = {59} onChange = {handleFieldChange} required/>
+                            <p>m</p>
+                        </div>
+                        <div className="col">
+                            <input type = "number" name = "timeS" className = "form-control" value = {formFields.timeS}
+                                min = {0} max = {59} onChange = {handleFieldChange} required/>
+                            <p>s</p>
+                        </div>
+                    </div>
                     {formFields.sport == 'BIKE' &&
                     <div>
                         <label className = "form-label">Average watts:</label>
                         <input type = "number" name = "averageWatts" className = "form-control" value = {formFields.averageWatts}
-                                onChange = {handleFieldChange}/>
+                                min = {1} max = {1000} onChange = {handleFieldChange}/>
                         <label className = "form-label">Maximum watts:</label>
                         <input type = "number" name = "maxWatts" className = "form-control" value = {formFields.maxWatts}
-                            onChange = {handleFieldChange}/>
+                            min = {1} max = {3000} onChange = {handleFieldChange}/>
                     </div>
                     }
                     <label className = "form-label">Average heart rate:</label>
                     <input type = "number" name = "averageHeartRate" className = "form-control" value = {formFields.averageHeartRate}
-                        onChange = {handleFieldChange}/>
+                        min = {30} max = {220} onChange = {handleFieldChange}/>
                     <label className = "form-label">Maximum heart rate:</label>
                     <input type = "number" name = "maxHeartRate" className = "form-control" value = {formFields.maxHeartRate}
-                        onChange = {handleFieldChange}/>
+                        min = {30} max = {250} onChange = {handleFieldChange}/>
                     <label className = "form-label">Description:</label>
                     <input type = "text" name = "description" className = "form-control" value = {formFields.description}
                         onChange = {handleFieldChange}/>
