@@ -2,11 +2,13 @@ import { useState } from "react"
 import { useDataContextAthletes } from "./contexts/DataContextAthletes"
 import { useWeekdayListVisibility } from "./contexts/WeekdayListVisibilityContext"
 import { useNavigate } from "react-router-dom"
+import { useDataContextTrainings } from "./contexts/DataContextTrainings"
 
 const AthletesTable = () => {
 
     const listVisibility = useWeekdayListVisibility()
     const dataContextAthletes = useDataContextAthletes()
+    const {activateRealization} = useDataContextTrainings()
     const navigate = useNavigate()
 
     const [highlightedRow, setHighlightedRow] = useState(null)
@@ -35,7 +37,9 @@ const AthletesTable = () => {
               <td>{athlete.lastName}</td>
               <td>
                 <button className="btn btn-outline-primary" onClick={() => 
-                  {dataContextAthletes.setPlansAndRealizationsForAthlete(athlete.id); listVisibility.setVisibility(true)
+                  {dataContextAthletes.setPlansAndRealizationsForAthlete(athlete.id);
+                    listVisibility.setVisibility(true)
+                    activateRealization(null)
                     handleRowClick(index)}}>+</button>
               </td>
             </tr>
