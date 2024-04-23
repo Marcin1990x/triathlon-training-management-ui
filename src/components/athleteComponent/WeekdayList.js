@@ -10,7 +10,7 @@ const  WeekdayList = () =>  {
   function getWeekdays(date) {
     const weekdays = [];
     date = new Date(date);
-    date.setDate(date.getDate() - date.getDay())
+    date.setDate(date.getDate() - date.getDay() + 1)
     for (let i = 0; i < 7; i++) {
       weekdays.push(new Date(date))
       date.setDate(date.getDate() + 1)
@@ -32,7 +32,7 @@ const  WeekdayList = () =>  {
   }
   const TrainingButton = (properties) => {
     return (
-      <button className = "btn btn-outline-dark m-1" onClick = {() => dataContextAthlete.setActiveTrainingFunction(properties.training)}>
+      <button className = "btn btn-outline-dark btn-sm m-1" onClick = {() => dataContextAthlete.setActiveTrainingFunction(properties.training)}>
         {properties.textField(properties.training)}
       </button>
     )

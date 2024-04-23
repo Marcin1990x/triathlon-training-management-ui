@@ -9,10 +9,11 @@ const NewTrainingRealization = ({toggleView}) => {
     const {athleteId} = useAuth()
     const {getTrainingRealizations} = useDataContextAthlete()
     const successToast = (message) => toast.success(message)
+    const errorToast = (message) => toast.error(message)
 
     const [formFields, setFormFields] = useState({
         sport: 'RUN',
-        name: '',
+        name: 'Training',
         date: '',
         distanceKm: 0,
         distanceHundreds: 0,
@@ -21,8 +22,8 @@ const NewTrainingRealization = ({toggleView}) => {
         timeS: 0,
         averageWatts: 0,
         maxWatts: 0,
-        averageHeartRate: 0,
-        maxHeartRate: 0,
+        averageHeartRate: 99,
+        maxHeartRate: 99,
         description: '',
         feelings: 'NORMAL',
         rpeLevel: 0
@@ -36,29 +37,41 @@ const NewTrainingRealization = ({toggleView}) => {
 
         event.preventDefault()
 
-        const newTraining = {
-            name: formFields.name,
-            distanceInMeters: countDistance(formFields.distanceKm, formFields.distanceHundreds),
-            timeInSeconds: countTime(formFields.timeH, formFields.timeM, formFields.timeS),
-            type: formFields.sport,
-            realizationDate: formFields.date,
-            averageWarrs: formFields.averageWatts,
-            maxWatts: formFields.maxWatts,
-            averageHeartrate: formFields.averageHeartRate,
-            maxHeartrate: formFields.maxHeartRate,
-            realizationDescription: formFields.description,
-            feelings: formFields.feelings,
-            rpeLevel: formFields.rpeLevel
-        }
+        if(isDateCorrect(formFields.date)) {
 
-        addNewTrainingRealizationForAthlete(athleteId, newTraining)
-            .then(response => {
-                console.log(response)
-                successToast('New training realization added successfully.')
-                getTrainingRealizations()
-                toggleView()
-            })
-            .catch(error => console.log(error))
+            const newTraining = {
+                name: formFields.name,
+                distanceInMeters: countDistance(formFields.distanceKm, formFields.distanceHundreds),
+                timeInSeconds: countTime(formFields.timeH, formFields.timeM, formFields.timeS),
+                type: formFields.sport,
+                realizationDate: formFields.date,
+                averageWarrs: formFields.averageWatts,
+                maxWatts: formFields.maxWatts,
+                averageHeartrate: formFields.averageHeartRate,
+                maxHeartrate: formFields.maxHeartRate,
+                realizationDescription: formFields.description,
+                feelings: formFields.feelings,
+                rpeLevel: formFields.rpeLevel
+            }
+
+            addNewTrainingRealizationForAthlete(athleteId, newTraining)
+                .then(response => {
+                    console.log(response)
+                    successToast('New training realization added successfully.')
+                    getTrainingRealizations()
+                    toggleView()
+                })
+                .catch(error => console.log(error))
+        } else {
+            errorToast('Given date should not be in the future.')
+        }
+    }
+
+    const isDateCorrect = (date) => {
+        const today = new Date()
+        const givenDate = new Date(date)
+
+        return givenDate <= today
     }
 
     const countDistance = (km, hundreds) => {
@@ -133,12 +146,16 @@ const NewTrainingRealization = ({toggleView}) => {
                             min = {1} max = {3000} onChange = {handleFieldChange}/>
                     </div>
                     }
-                    <label className = "form-label">Average heart rate:</label>
-                    <input type = "number" name = "averageHeartRate" className = "form-control" value = {formFields.averageHeartRate}
-                        min = {30} max = {220} onChange = {handleFieldChange}/>
-                    <label className = "form-label">Maximum heart rate:</label>
-                    <input type = "number" name = "maxHeartRate" className = "form-control" value = {formFields.maxHeartRate}
-                        min = {30} max = {250} onChange = {handleFieldChange}/>
+                    {formFields.sport != 'SWIM' &&
+                    <div>    
+                        <label className = "form-label">Average heart rate:</label>
+                        <input type = "number" name = "averageHeartRate" className = "form-control" value = {formFields.averageHeartRate}
+                            min = {30} max = {220} onChange = {handleFieldChange}/>
+                        <label className = "form-label">Maximum heart rate:</label>
+                        <input type = "number" name = "maxHeartRate" className = "form-control" value = {formFields.maxHeartRate}
+                            min = {30} max = {250} onChange = {handleFieldChange}/>
+                    </div>
+                    }    
                     <label className = "form-label">Description:</label>
                     <input type = "text" name = "description" className = "form-control" value = {formFields.description}
                         onChange = {handleFieldChange}/>

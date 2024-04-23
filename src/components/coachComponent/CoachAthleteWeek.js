@@ -2,6 +2,7 @@ import { useState } from "react"
 import { removeAthleteFromCoach } from "../api/CoachApiService"
 import { useAuth } from "../security/AuthContext"
 import AthleteWeekdayList from "./AthleteWeekdayList"
+import TrainingRealizationDetails from "./TrainingRealizationDetails"
 import { useDataContextAthletes } from "./contexts/DataContextAthletes"
 import { useWeekdayListVisibility } from "./contexts/WeekdayListVisibilityContext"
 import { toast } from "react-hot-toast"
@@ -43,6 +44,9 @@ const CoachAthleteWeek = () => {
                 <div className="container">
                     <div className="row">
                         <AthleteWeekdayList/>
+                    </div>
+                    <div className="row">
+                        <TrainingRealizationDetails/>
                     </div>
                     <div className="row">
                         <div className="col"></div>

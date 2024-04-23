@@ -15,6 +15,8 @@ const DataContextTrainingsProvider = ({children}) => {
 
     const [activePlan, setActivePlan] = useState(null)
 
+    const [activeRealization, setActiveRealization] = useState()
+
     const getCoachTrainingPlans= () => {
         getTrainingPlansByCoachIdApi(authContext.coachId)
             .then(response => {
@@ -23,6 +25,10 @@ const DataContextTrainingsProvider = ({children}) => {
             })
             .catch(error => console.log(error))
     }
+    const activateRealization = (realization) => {
+        setActiveRealization(realization)
+    }
+
     function activatePlan(plan) {
         setActivePlan(plan)
     }
@@ -32,7 +38,7 @@ const DataContextTrainingsProvider = ({children}) => {
 
     return (
         <DataContextTrainings.Provider value = {{getCoachTrainingPlans, trainingPlans, activatePlan, activePlan, 
-            newTrainingView, setNewTrainingView, switchView}}>
+            newTrainingView, setNewTrainingView, switchView, activateRealization, activeRealization}}>
             {children}
         </DataContextTrainings.Provider>
     )

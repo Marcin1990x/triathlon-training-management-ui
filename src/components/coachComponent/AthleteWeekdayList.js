@@ -2,17 +2,19 @@ import { useState } from 'react'
 import './styles.css'
 import { useWeekdayListVisibility } from './contexts/WeekdayListVisibilityContext';
 import { useDataContextAthletes } from './contexts/DataContextAthletes';
+import { useDataContextTrainings } from './contexts/DataContextTrainings';
 
 const  AthleteWeekdayList = () =>  {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const {setVisibility}= useWeekdayListVisibility()
   const DataContextAthletes = useDataContextAthletes()
+  const {activateRealization} = useDataContextTrainings()
 
   function getWeekdays(date) {
     const weekdays = [];
     date = new Date(date);
-    date.setDate(date.getDate() - date.getDay())
+    date.setDate(date.getDate() - date.getDay() + 1)
     for (let i = 0; i < 7; i++) {
       weekdays.push(new Date(date))
       date.setDate(date.getDate() + 1)
@@ -61,7 +63,11 @@ const  AthleteWeekdayList = () =>  {
           <div className = "row">
             {filtered.map((realization) => ( 
               <div className = "col">
-                <div>{realizationTextField(realization)}</div> 
+                <div>
+                  
+                  <button className = "btn btn-outline-dark btn-sm m-1" onClick={() => showTrainingRealizationDetails(realization)}>
+                  {realizationTextField(realization)}</button>
+                </div>
               </div>  
               ))}
           </div>
@@ -70,6 +76,10 @@ const  AthleteWeekdayList = () =>  {
   }
   function realizationTextField(realization) {
     return 'Realization: ' + realization.type + ' / ' + realization.name + ' / ' + (realization.distanceInMeters/1000).toFixed(1) + 'km'
+  }
+
+  const showTrainingRealizationDetails = (realization) => {
+    activateRealization(realization)
   }
 
   function formatDate(date) {
@@ -102,6 +112,11 @@ const  AthleteWeekdayList = () =>  {
     return <button className = "btn btn-outline-danger btn-sm m-1" onClick={() => DataContextAthletes.removeTrainingPlan(id)}>Remove</button>
   }
 
+  const handleClosePanelBtn = () => {
+    setVisibility(false)
+    activateRealization(null)
+  }
+
   return (
     <div>
         <div className= "weekdaysList">
@@ -121,7 +136,7 @@ const  AthleteWeekdayList = () =>  {
               ))}
             </ul>
             <button className="btn btn-outline-primary m-1 float-end" 
-                onClick = {() => setVisibility(false)}>Close panel</button>
+                onClick = {() => handleClosePanelBtn()}>Close panel</button>
         </div> 
     </div>
   )

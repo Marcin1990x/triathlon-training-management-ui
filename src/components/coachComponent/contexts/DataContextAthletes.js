@@ -47,6 +47,7 @@ const DataContextAthletesProvider = ({children}) => {
     const setPlansAndRealizationsForAthlete = (id) => {
         getTrainingPlans(id)
         getTrainingRealizations(id)
+
     }
     const removeTrainingPlan = (id) => {
         removeTrainingPlanFromAthleteApi(athleteId, id)
