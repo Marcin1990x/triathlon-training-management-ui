@@ -64,7 +64,6 @@ const  AthleteWeekdayList = () =>  {
             {filtered.map((realization) => ( 
               <div className = "col">
                 <div>
-                  
                   <button className = "btn btn-outline-dark btn-sm m-1" onClick={() => showTrainingRealizationDetails(realization)}>
                   {realizationTextField(realization)}</button>
                 </div>

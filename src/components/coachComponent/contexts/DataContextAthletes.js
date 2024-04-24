@@ -95,7 +95,7 @@ const DataContextAthletesProvider = ({children}) => {
     return (
         <DataContextAthletes.Provider value = {{getAthletes, athletes, athletePlans, athleteRealizations, athleteId, 
             setPlansAndRealizationsForAthlete, removeTrainingPlan, addPlanMode, setAddPlanMode, setNewPlanDate,
-                addTrainingPlanToAthleteWithDate, handleAddPlanMode, toggleView, athleteView}}>
+                addTrainingPlanToAthleteWithDate, handleAddPlanMode, toggleView, athleteView, setAthleteId}}>
             {children}
         </DataContextAthletes.Provider>
     )

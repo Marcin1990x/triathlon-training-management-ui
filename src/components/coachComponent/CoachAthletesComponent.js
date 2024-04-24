@@ -1,5 +1,6 @@
 import AthletesTable from "./AthletesTable"
 import CoachAthleteWeek from "./CoachAthleteWeek"
+import RemoveAthlete from "./RemoveAthlete"
 
 const CoachAthletesComponent = () => {
 
@@ -11,6 +12,11 @@ const CoachAthletesComponent = () => {
                 <div className="row">
                     <div className="col">
                         <AthletesTable/>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col">
+                        <RemoveAthlete/>
                     </div>
                 </div>
                 <div className="row">
